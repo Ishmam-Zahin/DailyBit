@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: DailyBit
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dailybit
+    username: postgres
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+
