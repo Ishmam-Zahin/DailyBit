@@ -2,7 +2,7 @@
 # Original content (keep as is)
 # ----------------------------
 
-judge
+/DailyBit-Backend/judge
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
