@@ -2,6 +2,7 @@
 # Original content (keep as is)
 # ----------------------------
 
+judge
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
