@@ -1,0 +1,38 @@
+.heading{
+    font-size: 1.6rem;
+    background-color: rgb(148, 188, 203);
+    height: 8rem;
+    padding: 1rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.heading h1{
+    font-size: 3.2rem;
+    font-weight: 600;
+    color: white;
+    margin-left: 2rem;
+}
+
+.utility button{
+    background-color: white;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.utility button:active{
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+    transform: translate(0, .1rem);
+}
+
+.utility button:not(:last-child){
+    margin-right: 3rem;
+}
+
+
+.main{
+    background-color: red;
+}
