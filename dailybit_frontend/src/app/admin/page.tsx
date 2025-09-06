@@ -1,11 +1,12 @@
-import styles from '@/styles/pages/admin/admin.module.css'
+import styles from '@/styles/pages/admin/admin.module.scss'
 
 export default function page(){
     return(
-        <main
-        className={styles.main}
+        
+        <div
+        className={styles.mainContentSection}
         >
-            admin main
-        </main>
+            Welcome to Admin Panel!!!
+        </div>
     )
 }

@@ -1,0 +1,113 @@
+.heading{
+    font-size: 1.6rem;
+    background-color: rgb(148, 188, 203);
+    height: 8rem;
+    padding: 1rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+
+    h1{
+        font-size: 3.2rem;
+        font-weight: 600;
+        color: white;
+        margin-left: 2rem;
+    }
+}
+
+.utility{
+    button{
+        background-color: white;
+        padding: 1rem 2rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
+
+        transition: all 0.1s;
+
+        &:active{
+            box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+            transform: translate(0, .1rem);
+        }
+        &:not(:last-child){
+            margin-right: 3rem;
+        }
+    }
+}
+
+.main{
+    display: grid;
+    grid-template-columns: 30rem 1fr;
+    column-gap: 1rem;
+
+    .navSection{
+        padding: 1rem;
+
+        nav{
+            // background-color: red;
+            margin-top: 5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            border-color: rgb(157, 157, 157);
+            border-width: .1rem;
+
+            h2{
+                background-color: rgb(109, 168, 190);
+                font-size: 1.8rem;
+                padding: .5rem 2rem;
+                color: white;
+                text-align: center;
+            }
+
+            .navList{
+                font-size: 1.6rem;
+                margin: 2rem 1rem;
+
+                li{
+                    text-align: center;
+                    cursor: pointer;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 80%;
+                    border-bottom: 3px solid rgb(157, 157, 157);
+                    padding: 1rem 0;
+
+                    transition: all 0.2s;
+
+                    &:hover{
+                        width: 100%;
+                        border-bottom: 3px solid rgb(109, 168, 190);
+                    }
+                }
+                .navList:not(:last-child){
+                    margin-bottom: 2rem;
+                }
+            }
+        }
+    }
+
+    .mainContentSection{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 2.8rem;
+    }
+
+    .problemsSection{
+        padding: 1rem;
+
+        table{
+            margin-top: 5rem;
+            width: 100%;
+            border: 1px solid black;
+            font-size: 1.6rem;
+            border-collapse: collapse;
+
+            th, td{
+                border: 1px solid black;
+                padding: 1rem;
+            }
+        }
+    }
+}
