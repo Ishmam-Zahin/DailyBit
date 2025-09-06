@@ -3,6 +3,7 @@ package com.DailyBit.judge.controllers;
 
 import com.DailyBit.judge.models.Submission;
 import com.DailyBit.judge.services.JavaJudgeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,6 +12,7 @@ public class JudgeController {
 
     private final JavaJudgeService javaJudgeService;
 
+    @Autowired
     public JudgeController(JavaJudgeService javaJudgeService) {
         this.javaJudgeService = javaJudgeService;
     }

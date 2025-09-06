@@ -5,6 +5,7 @@ import com.DailyBit.judge.Repository.TestCaseRepo;
 import com.DailyBit.judge.exceptionModel.JudgeException;
 import com.DailyBit.judge.models.Problem;
 import com.DailyBit.judge.models.TestCase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,14 +19,14 @@ import java.util.Optional;
 @Service
 public class JavaJudgeService {
 
-    private ProblemRepo problemRepo;
-    private TestCaseRepo testCaseRepo;
+    private final ProblemRepo problemRepo;
+    private final TestCaseRepo testCaseRepo;
 
     private final Path javaBase = Path.of(System.getProperty("user.dir"), "judge", "java");
     private final String javaImageName = "openjdk:26-slim";
     private final String javaFileName = "Solution";
 
-
+    @Autowired
     public JavaJudgeService(ProblemRepo problemRepo, TestCaseRepo testCaseRepo) throws IOException {
         this.problemRepo = problemRepo;
         this.testCaseRepo = testCaseRepo;
