@@ -1,3 +1,25 @@
+.btn{
+    background-color: white;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
+
+    transition: all 0.1s;
+
+    &:active{
+        box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+        transform: translate(0, .1rem);
+    }
+    &:not(:last-child){
+        margin-right: 3rem;
+    }
+}
+
+.btnSmall{
+    padding: .5rem 1rem;
+}
+
 .heading{
     font-size: 1.6rem;
     background-color: rgb(148, 188, 203);
@@ -12,26 +34,6 @@
         font-weight: 600;
         color: white;
         margin-left: 2rem;
-    }
-}
-
-.utility{
-    button{
-        background-color: white;
-        padding: 1rem 2rem;
-        cursor: pointer;
-        border-radius: 1rem;
-        box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
-
-        transition: all 0.1s;
-
-        &:active{
-            box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
-            transform: translate(0, .1rem);
-        }
-        &:not(:last-child){
-            margin-right: 3rem;
-        }
     }
 }
 
@@ -96,17 +98,48 @@
 
     .problemsSection{
         padding: 1rem;
+        margin-top: 5rem;
+
+        .actionContainer{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
 
         table{
-            margin-top: 5rem;
             width: 100%;
             border: 1px solid black;
             font-size: 1.6rem;
             border-collapse: collapse;
 
+            th{
+                background-color: rgb(109, 168, 190);
+                color: white;
+            }
+
             th, td{
                 border: 1px solid black;
                 padding: 1rem;
+            }
+
+            .actionTd{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .deleteBtn{
+                    background-color: red;
+                    color: white;
+                }
+
+                .editBtn{
+                    background-color: rgb(109, 168, 190);
+                    color: white;
+                    margin-right: 1rem;
+                }
             }
         }
     }

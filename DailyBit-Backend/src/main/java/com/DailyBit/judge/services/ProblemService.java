@@ -20,8 +20,13 @@ public class ProblemService {
         this.problemRepo = problemRepo;
     }
 
-    public List<Problem> getProblemList(){
-        return problemRepo.findAll();
+    public List<Problem> getProblemList(
+            String name,
+            String language,
+            String sectionName,
+            int chapter
+    ){
+        return problemRepo.filterProblems(name, language, sectionName, chapter);
     }
 
     public Problem addProblem(Problem problem){
