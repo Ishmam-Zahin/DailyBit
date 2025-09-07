@@ -18,8 +18,12 @@ export default function layout(
                 <div
                 className={styles.utility}
                 >
-                    <button>Settings</button>
-                    <button>logout</button>
+                    <button
+                    className={styles.btn}
+                    >Settings</button>
+                    <button
+                    className={styles.btn}
+                    >logout</button>
                 </div>
             </header>
             <main
