@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class ProblemController {
 
     private final ProblemService problemService;
@@ -24,8 +25,18 @@ public class ProblemController {
     }
 
     @GetMapping("/problems")
-    public List<Problem> getProblemList(){
-        return problemService.getProblemList();
+    public List<Problem> getProblemList(
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "language", required = false, defaultValue = "all") String language,
+            @RequestParam(name = "section", required = false, defaultValue = "") String sectionName,
+            @RequestParam(name = "chapter", required = false, defaultValue = "-1") int chapter
+    ){
+        return problemService.getProblemList(
+                name,
+                language,
+                sectionName,
+                chapter
+        );
     }
 
     @PostMapping("/problems")

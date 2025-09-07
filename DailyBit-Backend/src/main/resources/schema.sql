@@ -1,5 +1,6 @@
 create table if not exists problems(
     id varchar(10) primary key,
+    p_language varchar(10) not null check(p_language in ('java', 'python', 'c', 'cpp', 'js', 'dart', 'go', 'sql')),
     section_name varchar(10) not null,
     chapter_id int not null,
     problem_name varchar(100) not null,

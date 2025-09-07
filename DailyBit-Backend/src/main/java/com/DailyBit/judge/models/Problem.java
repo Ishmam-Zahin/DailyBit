@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 public class Problem {
     @Id
     private String id;
+    @Column(name = "p_language")
+    private String language;
     @Column(name = "section_name")
     private String sectionName;
     @Column(name = "chapter_id")

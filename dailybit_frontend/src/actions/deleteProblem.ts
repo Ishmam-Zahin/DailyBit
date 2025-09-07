@@ -1,9 +1,7 @@
-'use server'
-
-import { revalidatePath } from "next/cache";
+import domain from "@/helper/backendDomain";
 
 export async function deleteProblem(problemId: string) {
-    const response = await fetch(`http://localhost:8080/api/problem/${problemId}`, {
+    const response = await fetch(`${domain}/problem/${problemId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -11,15 +9,6 @@ export async function deleteProblem(problemId: string) {
     });
 
     if(response.status >= 300){
-        return {
-            status: response.status,
-            message: 'failed to delete!',
-        };
+        throw 'Failed to delete problem';
     }
-
-    revalidatePath('/admin/problems');
-    return {
-        status: response.status,
-        message: 'deleted successfully!',
-    };
 }
