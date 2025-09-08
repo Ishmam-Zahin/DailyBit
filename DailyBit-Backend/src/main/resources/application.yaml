@@ -7,10 +7,10 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
-  sql:
-    init:
-      mode: always
-      continue-on-error: true
+#  sql:
+#    init:
+#      mode: always
+#      continue-on-error: true
 

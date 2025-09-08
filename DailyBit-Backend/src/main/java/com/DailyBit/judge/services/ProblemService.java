@@ -22,15 +22,14 @@ public class ProblemService {
 
     public List<Problem> getProblemList(
             String name,
-            String language,
             String sectionName,
-            int chapter
+            int chapterNo
     ){
-        return problemRepo.filterProblems(name, language, sectionName, chapter);
+        return problemRepo.filterProblems(name, sectionName, chapterNo);
     }
 
-    public Problem addProblem(Problem problem){
-        return problemRepo.save(problem);
+    public void addProblem(Problem problem){
+        problemRepo.save(problem);
     }
 
     public Problem getProblemById(String id) throws FileNotFoundException {

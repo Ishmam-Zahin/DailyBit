@@ -1,28 +1,27 @@
 package com.DailyBit.judge.Repository;
 
-import com.DailyBit.judge.models.Problem;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.DailyBit.judge.models.Problem;
 
 @Repository
 public interface ProblemRepo extends JpaRepository<Problem, String> {
     @Query(
             """
             select p from Problem p
-            where (:name = '' or lower(p.problemName) like lower(concat('%', :name, '%') ))
-                  and (:language = 'all' OR p.language = :language)
-                  and (:sectionName = '' OR p.sectionName = :sectionName)
-                  and (:chapter = -1 OR p.chapterId = :chapter)
+            where (:name = '' or lower(p.name) like lower(concat('%', :name, '%') ))
+                  and (:sectionName = '' OR p.section.name = :sectionName)
+                  and (:chapterNo = -1 OR p.chapterNo = :chapterNo)
             """
     )
     List<Problem> filterProblems(
             @Param("name") String name,
-            @Param("language") String language,
             @Param("sectionName") String sectionName,
-            @Param("chapter") int chapter
+            @Param("chapterNo") int chapterNo
     );
 }
