@@ -1,19 +1,21 @@
 package com.DailyBit.judge.services;
 
-import com.DailyBit.judge.Repository.ProblemRepo;
-import com.DailyBit.judge.Repository.TestCaseRepo;
-import com.DailyBit.judge.exceptionModel.JudgeException;
-import com.DailyBit.judge.models.Problem;
-import com.DailyBit.judge.models.TestCase;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.DailyBit.judge.Repository.ProblemRepo;
+import com.DailyBit.judge.Repository.TestCaseRepo;
+import com.DailyBit.judge.exceptionModel.JudgeException;
+import com.DailyBit.judge.models.Problem;
+import com.DailyBit.judge.models.TestCase;
+import com.DailyBit.judge.others.TestType;
 
 
 @Service
@@ -115,12 +117,12 @@ public class JavaJudgeService {
         Path tmpDir = this.createTempJavaFile(code);
         this.compileJava(tmpDir);
 
-        List<TestCase> testCases = this.testCaseRepo.findAllByProblemId(problem.getId());
+        List<TestCase> testCases = this.testCaseRepo.findByProblem_id(problem.getId());
 
         for(TestCase testCase : testCases){
-            if(testCase.getTestType().equals("match")){
-                String output = this.runJava(tmpDir, testCase.getInputText(), problem.getTimeLimit(), problem.getTimeout());
-                this.matchResult(testCase.getOutputText(), output);
+            if(testCase.getTestType() == TestType.EXACT){
+                String output = this.runJava(tmpDir, testCase.getInput(), problem.getTimeLimit(), problem.getTimeout());
+                this.matchResult(testCase.getOutput(), output);
             }
             else{
                 throw new JudgeException("unknown");

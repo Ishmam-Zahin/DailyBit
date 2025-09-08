@@ -1,13 +1,14 @@
 package com.DailyBit.judge.services;
 
 
-import com.DailyBit.judge.Repository.TestCaseRepo;
-import com.DailyBit.judge.models.TestCase;
+import java.io.FileNotFoundException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.util.List;
+import com.DailyBit.judge.Repository.TestCaseRepo;
+import com.DailyBit.judge.models.TestCase;
 
 @Service
 public class TestCaseService {
@@ -27,7 +28,7 @@ public class TestCaseService {
     }
 
     public List<TestCase> getAllTestCasesByProblemId(String problemId){
-        return testCaseRepo.findAllByProblemId(problemId);
+        return testCaseRepo.findByProblem_id(problemId);
     }
 
     public TestCase getTestCaseById(int id) throws FileNotFoundException {

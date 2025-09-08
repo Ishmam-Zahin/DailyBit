@@ -1,14 +1,15 @@
 package com.DailyBit.judge.Repository;
 
 
-import com.DailyBit.judge.models.TestCase;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.DailyBit.judge.models.TestCase;
 
 @Repository
 public interface TestCaseRepo extends JpaRepository<TestCase, Integer> {
 
-    List<TestCase> findAllByProblemId(String problemId);
+    List<TestCase> findByProblem_id(String problemId);
 }
