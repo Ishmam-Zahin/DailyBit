@@ -2,8 +2,8 @@ package com.DailyBit.judge.controllers;
 
 
 import com.DailyBit.judge.DTOs.RequestProblemDTO;
+import com.DailyBit.judge.DTOs.ResponseProblemDTO;
 import com.DailyBit.judge.models.Problem;
-import com.DailyBit.judge.models.Section;
 import com.DailyBit.judge.services.ProblemService;
 import com.DailyBit.judge.services.SectionService;
 import jakarta.validation.Valid;
@@ -32,42 +32,40 @@ public class ProblemController {
     }
 
     @GetMapping("/problems")
-    public List<Problem> getProblemList(
+    public ResponseEntity<?> getProblemList(
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
-            @RequestParam(name = "sectionName", required = false, defaultValue = "") String sectionName,
+            @RequestParam(name = "sectionName", required = false, defaultValue = "all") String sectionName,
             @RequestParam(name = "chapterNo", required = false, defaultValue = "-1") int chapterNo
     ){
+        Map<String, Object> message = new HashMap<>();
 
-        return problemService.getProblemList(
-                name,
-                sectionName,
-                chapterNo
-        );
+        try{
+            List<Problem> problems = problemService.getProblemList(
+                    name,
+                    sectionName,
+                    chapterNo
+            );
+            return ResponseEntity.ok(problems);
+        }
+        catch(Exception e){
+            message.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
     @PostMapping("/problems")
     public ResponseEntity<?> addProblem(@Valid @RequestBody RequestProblemDTO  requestProblemDTO, BindingResult result){
         Map<String, Object> message = new HashMap<>();
+
         if(result.hasErrors()){
             System.out.println("x");
-            message.put("message","faliled");
-            message.put("errors", result.getAllErrors());
+            message.put("message","invalid form data");
             return ResponseEntity.badRequest().body(message);
         }
         try{
-            Problem problem = new Problem();
-            Section section = sectionService.getSectionByName(requestProblemDTO.getSectionName());
-            System.out.println(section);
-            problem.setId(requestProblemDTO.getId());
-            problem.setName(requestProblemDTO.getName());
-            problem.setSection(section);
-            problem.setChapterNo(requestProblemDTO.getChapterNo());
-            problem.setTimeLimit(requestProblemDTO.getTimeLimit());
-            problem.setTimeout(requestProblemDTO.getTimeout());
-
-            problemService.addProblem(problem);
-            message.put("message", "success");
-            return ResponseEntity.ok().body(message);
+            problemService.addProblem(requestProblemDTO);
+            message.put("message","success");
+            return ResponseEntity.ok(message);
 
         }
         catch (Exception e){
@@ -78,24 +76,47 @@ public class ProblemController {
 
     @GetMapping("/problem/{id}")
     public ResponseEntity<?> getProblem(@PathVariable String id){
+        Map<String,Object> message = new HashMap<>();
         try{
-            Problem p = problemService.getProblemById(id);
+            ResponseProblemDTO p = problemService.getProblemById(id);
             return ResponseEntity.ok(p);
         }
         catch (Exception e){
-            Map<String,Object> response = new HashMap<>();
-            response.put("message",e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            message.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
     }
 
     @PostMapping("/problem")
-    public Problem updateProblem(@RequestBody Problem problem){
-        return problemService.updateProblem(problem);
+    public ResponseEntity<?> updateProblem(@Valid @RequestBody RequestProblemDTO requestProblemDTO, BindingResult result){
+        System.out.println("x");
+        Map<String, Object> message = new HashMap<>();
+        if(result.hasErrors()){
+            message.put("message","invalid form data");
+            return  ResponseEntity.badRequest().body(message);
+        }
+        try{
+            problemService.updateProblem(requestProblemDTO);
+            message.put("message","success");
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e){
+            message.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
     @DeleteMapping("/problem/{id}")
-    public void deleteProblem(@PathVariable String id){
-        problemService.deleteProblemById(id);
+    public ResponseEntity<?> deleteProblem(@PathVariable String id){
+        Map<String, Object> message = new HashMap<>();
+        try{
+            problemService.deleteProblemById(id);
+            message.put("message","success");
+            return ResponseEntity.ok().body(message);
+        }
+        catch (Exception e){
+            message.put("message", e.getMessage());
+            return  ResponseEntity.badRequest().body(message);
+        }
     }
 }

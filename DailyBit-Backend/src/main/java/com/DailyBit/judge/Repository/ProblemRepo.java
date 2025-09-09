@@ -15,7 +15,7 @@ public interface ProblemRepo extends JpaRepository<Problem, String> {
             """
             select p from Problem p
             where (:name = '' or lower(p.name) like lower(concat('%', :name, '%') ))
-                  and (:sectionName = '' OR p.section.name = :sectionName)
+                  and (:sectionName = 'all' OR p.section.name = :sectionName)
                   and (:chapterNo = -1 OR p.chapterNo = :chapterNo)
             """
     )
