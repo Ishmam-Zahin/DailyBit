@@ -1,0 +1,28 @@
+.form{
+    padding: 0rem 2rem;
+
+    input{
+        border: 1px solid black;
+        outline: none;
+        margin: 0;
+        margin-right: 1rem;
+        padding: .5rem 2rem;
+        font-size: 1.6rem;
+        border-radius: 1rem;
+    }
+
+    select{
+        border: 1px solid black;
+        cursor: pointer;
+        padding: 1rem 2rem;
+        margin-right: 1rem;
+        border-radius: 1rem;
+        font-size: 1.6rem;
+    }
+
+    .filterBtn{
+        background-color: rgb(109, 168, 190);
+        color: white;
+        font-size: 1.6rem;
+    }
+}

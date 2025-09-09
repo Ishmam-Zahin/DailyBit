@@ -1,0 +1,21 @@
+.btn{
+    background-color: white;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
+
+    transition: all 0.1s;
+
+    &:active{
+        box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+        transform: translate(0, .1rem);
+    }
+    &:not(:last-child){
+        margin-right: 3rem;
+    }
+}
+
+.btnSmall{
+    padding: .5rem 1rem;
+}

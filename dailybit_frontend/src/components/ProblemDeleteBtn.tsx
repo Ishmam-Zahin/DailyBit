@@ -1,7 +1,8 @@
 'use client'
 
 import { deleteProblem } from '@/actions/deleteProblem';
-import styles from '@/styles/pages/admin/admin.module.scss';
+import styles from '@/styles/components/problemDeleteBtn.module.scss'
+import commonStyles from '@/styles/common.module.scss'
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -24,7 +25,7 @@ export default function ProblemDeleteBtn({
     });
     return (
         <button
-        className={`${styles.btn} ${styles.btnSmall} ${styles.deleteBtn}`}
+        className={`${commonStyles.btn} ${commonStyles.btnSmall} ${styles.deleteBtn}`}
         disabled = {mutation.isPending}
         onClick={() => {
             if(!confirm('Are you sure you want to delete this problem?')){

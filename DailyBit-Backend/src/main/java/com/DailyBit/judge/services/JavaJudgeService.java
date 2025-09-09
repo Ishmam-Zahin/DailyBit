@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.DailyBit.judge.Repository.ProblemRepo;
 import com.DailyBit.judge.Repository.TestCaseRepo;
-import com.DailyBit.judge.exceptionModel.JudgeException;
+import com.DailyBit.exceptionModel.CustomException;
 import com.DailyBit.judge.models.Problem;
 import com.DailyBit.judge.models.TestCase;
 import com.DailyBit.judge.others.TestType;
@@ -69,17 +69,17 @@ public class JavaJudgeService {
         return tmpDir;
     }
 
-    private void compileJava(Path tmpDir) throws IOException, InterruptedException, JudgeException {
+    private void compileJava(Path tmpDir) throws IOException, InterruptedException, CustomException {
         ProcessBuilder compilePb = this.getCompileProcessBuilder(tmpDir);
         Process p = compilePb.start();
         String output = new String(p.getInputStream().readAllBytes());
         int exitCode = p.waitFor();
         if(exitCode != 0){
-            throw new JudgeException("Compilation Error: " + output);
+            throw new CustomException("Compilation Error: " + output);
         }
     }
 
-    private String runJava(Path tmpDir, String input, int ulimit, int timeout) throws IOException, InterruptedException, JudgeException {
+    private String runJava(Path tmpDir, String input, int ulimit, int timeout) throws IOException, InterruptedException, CustomException {
         String result;
 
         ProcessBuilder runPb = this.getExecuteProcessBuilder(tmpDir, ulimit, timeout);
@@ -95,29 +95,29 @@ public class JavaJudgeService {
 
         if(exitCode != 0){
             if(exitCode == 137 || exitCode == 124){
-                throw new JudgeException("Runtime Error: Time Limit Exceeded");
+                throw new CustomException("Runtime Error: Time Limit Exceeded");
             }
-            throw new JudgeException("Runtime Error: " + result);
+            throw new CustomException("Runtime Error: " + result);
         }
 
         return result;
     }
 
-    private void matchResult(String expected, String actual) throws JudgeException {
+    private void matchResult(String expected, String actual) throws CustomException {
         boolean is =  expected.trim().equals(actual.trim());
         if(!is){
-            throw new JudgeException("Wrong Answer");
+            throw new CustomException("Wrong Answer");
         }
     }
 
-    public String judge(String problemId, String code) throws IOException, JudgeException, InterruptedException {
+    public String judge(String problemId, String code) throws IOException, CustomException, InterruptedException {
         Optional<Problem> optionalProblem =  this.problemRepo.findById(problemId);
-        Problem problem = optionalProblem.orElseThrow(() -> new JudgeException("Problem not found"));
+        Problem problem = optionalProblem.orElseThrow(() -> new CustomException("Problem not found"));
 
         Path tmpDir = this.createTempJavaFile(code);
         this.compileJava(tmpDir);
 
-        List<TestCase> testCases = this.testCaseRepo.findByProblem_id(problem.getId());
+        List<TestCase> testCases = problem.getTestCases();
 
         for(TestCase testCase : testCases){
             if(testCase.getTestType() == TestType.EXACT){
@@ -125,7 +125,7 @@ public class JavaJudgeService {
                 this.matchResult(testCase.getOutput(), output);
             }
             else{
-                throw new JudgeException("unknown");
+                throw new CustomException("unknown");
             }
 
         }
