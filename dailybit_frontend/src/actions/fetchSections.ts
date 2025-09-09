@@ -1,7 +1,7 @@
 import domain from "@/helper/backendDomain";
 
-export default async function getProblems(queryString: string){
-    const url = domain + '/problems' + queryString;
+export default async function fetchSections(){
+    const url = `${domain}/sections`
     try{
         const response = await fetch(url, {
             cache: "no-store",
@@ -14,6 +14,7 @@ export default async function getProblems(queryString: string){
             throw 'internel server error!';
         }
         const data = await response.json();
+
         return data;
     }
     catch(err){

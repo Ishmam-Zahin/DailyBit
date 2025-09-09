@@ -3,9 +3,9 @@ package com.DailyBit.judge.controllers;
 
 import com.DailyBit.judge.DTOs.RequestProblemDTO;
 import com.DailyBit.judge.DTOs.ResponseProblemDTO;
+import com.DailyBit.judge.DTOs.ResponseProblemWithTestCasesDTO;
 import com.DailyBit.judge.models.Problem;
 import com.DailyBit.judge.services.ProblemService;
-import com.DailyBit.judge.services.SectionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +23,10 @@ import java.util.Map;
 public class ProblemController {
 
     private final ProblemService problemService;
-    private final SectionService sectionService;
 
     @Autowired
-    public ProblemController(ProblemService problemService, SectionService sectionService) {
+    public ProblemController(ProblemService problemService) {
         this.problemService = problemService;
-        this.sectionService = sectionService;
     }
 
     @GetMapping("/problems")
@@ -40,7 +38,7 @@ public class ProblemController {
         Map<String, Object> message = new HashMap<>();
 
         try{
-            List<Problem> problems = problemService.getProblemList(
+            List<ResponseProblemDTO> problems = problemService.getProblemList(
                     name,
                     sectionName,
                     chapterNo
@@ -58,7 +56,6 @@ public class ProblemController {
         Map<String, Object> message = new HashMap<>();
 
         if(result.hasErrors()){
-            System.out.println("x");
             message.put("message","invalid form data");
             return ResponseEntity.badRequest().body(message);
         }
@@ -78,7 +75,7 @@ public class ProblemController {
     public ResponseEntity<?> getProblem(@PathVariable String id){
         Map<String,Object> message = new HashMap<>();
         try{
-            ResponseProblemDTO p = problemService.getProblemById(id);
+            ResponseProblemWithTestCasesDTO p = problemService.getProblemById(id);
             return ResponseEntity.ok(p);
         }
         catch (Exception e){

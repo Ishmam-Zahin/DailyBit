@@ -37,7 +37,7 @@ public class Problem {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "section_name", referencedColumnName = "name", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Section section;
 
     @Column(name = "chapter_no", nullable = false, columnDefinition = "INT CHECK (chapter_no >= 1 AND chapter_no <= 500)")
@@ -48,6 +48,9 @@ public class Problem {
 
     @Column(name = "time_out", nullable = false, columnDefinition = "INT DEFAULT 5 CHECK (time_out >= 1 AND time_out <= 10)")
     private Integer timeout = 5;
+
+    @Column(name = "default_template", nullable = false, columnDefinition = "TEXT")
+    private String defaultTemplate;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference

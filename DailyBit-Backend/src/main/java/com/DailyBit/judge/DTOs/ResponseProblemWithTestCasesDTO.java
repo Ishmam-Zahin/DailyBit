@@ -2,14 +2,17 @@ package com.DailyBit.judge.DTOs;
 
 
 import com.DailyBit.judge.models.Section;
+import com.DailyBit.judge.models.TestCase;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseProblemDTO {
+public class ResponseProblemWithTestCasesDTO {
 
     private String id;
 
@@ -24,4 +27,7 @@ public class ResponseProblemDTO {
     private int timeout;
 
     private String defaultTemplate;
+
+    private List<TestCase> testCases;
+
 }

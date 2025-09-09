@@ -1,4 +1,5 @@
 import styles from '@/styles/pages/admin/admin.module.scss'
+import commonStyles from '@/styles/common.module.scss'
 import Link from 'next/link'
 
 export default function layout(
@@ -19,10 +20,10 @@ export default function layout(
                 className={styles.utility}
                 >
                     <button
-                    className={styles.btn}
+                    className={commonStyles.btn}
                     >Settings</button>
                     <button
-                    className={styles.btn}
+                    className={commonStyles.btn}
                     >logout</button>
                 </div>
             </header>

@@ -3,6 +3,7 @@ package com.DailyBit.judge.models;
 
 import com.DailyBit.judge.others.TestType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +34,7 @@ public class TestCase {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "problem_id", referencedColumnName = "id", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Problem problem;
 
     @Enumerated(EnumType.STRING)

@@ -117,7 +117,7 @@ public class JavaJudgeService {
         Path tmpDir = this.createTempJavaFile(code);
         this.compileJava(tmpDir);
 
-        List<TestCase> testCases = this.testCaseRepo.findByProblem_id(problem.getId());
+        List<TestCase> testCases = problem.getTestCases();
 
         for(TestCase testCase : testCases){
             if(testCase.getTestType() == TestType.EXACT){

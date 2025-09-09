@@ -1,7 +1,6 @@
 package com.DailyBit.judge.DTOs;
 
 
-import com.DailyBit.judge.models.Section;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +31,9 @@ public class RequestProblemDTO {
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Name must contain only letters and digits")
     private String name;
 
+    @NotNull(message = "Section name cannot be null")
+    @NotBlank(message = "Section name cannot be blank")
+    @Size(min = 3, max = 50, message = "Section name must be between 3 and 50 characters")
     private String sectionName;
 
     @NotNull(message = "Chapter no cannot be null")
@@ -46,6 +48,10 @@ public class RequestProblemDTO {
     @Min(value = 1, message = "Minimum value for time out is 1")
     @Max(value = 10, message = "Maximum value for time out is 10")
     private Integer timeout = 5;
+
+    @NotNull(message = "Template cannot be null")
+    @NotBlank(message = "Template cannot be blank")
+    private String defaultTemplate;
 
     private List<RequestTestCaseDTO> requestTestCases;
 }
