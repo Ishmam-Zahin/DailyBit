@@ -13,6 +13,13 @@
         color: white;
         margin-left: 2rem;
     }
+
+    .utility{
+        button{
+            background-color: white;
+            color: black;
+        }
+    }
 }
 
 .main{
@@ -28,11 +35,11 @@
             margin-top: 5rem;
             border-radius: 1rem;
             overflow: hidden;
-            border-color: rgb(157, 157, 157);
+            border-color: var(--color-gray-1);
             border-width: .1rem;
 
             h2{
-                background-color: rgb(109, 168, 190);
+                background-color: var(--primary-color-dark);
                 font-size: 1.8rem;
                 padding: .5rem 2rem;
                 color: white;
@@ -72,48 +79,5 @@
         align-items: center;
 
         font-size: 2.8rem;
-    }
-
-    .problemsSection{
-        padding: 1rem;
-        margin-top: 5rem;
-
-        .actionContainer{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        table{
-            width: 100%;
-            border: 1px solid black;
-            font-size: 1.6rem;
-            border-collapse: collapse;
-
-            th{
-                background-color: rgb(109, 168, 190);
-                color: white;
-            }
-
-            th, td{
-                border: 1px solid black;
-                padding: 1rem;
-            }
-
-            .actionTd{
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                .editBtn{
-                    background-color: rgb(109, 168, 190);
-                    color: white;
-                    margin-right: 1rem;
-                }
-            }
-        }
     }
 }

@@ -4,7 +4,6 @@ package com.DailyBit.judge.controllers;
 import com.DailyBit.judge.DTOs.RequestProblemDTO;
 import com.DailyBit.judge.DTOs.ResponseProblemDTO;
 import com.DailyBit.judge.DTOs.ResponseProblemWithTestCasesDTO;
-import com.DailyBit.judge.models.Problem;
 import com.DailyBit.judge.services.ProblemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,9 +83,8 @@ public class ProblemController {
         }
     }
 
-    @PostMapping("/problem")
+    @PutMapping("/problem")
     public ResponseEntity<?> updateProblem(@Valid @RequestBody RequestProblemDTO requestProblemDTO, BindingResult result){
-        System.out.println("x");
         Map<String, Object> message = new HashMap<>();
         if(result.hasErrors()){
             message.put("message","invalid form data");

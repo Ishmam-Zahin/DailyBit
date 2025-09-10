@@ -1,26 +1,26 @@
 'use client'
 
-import { deleteProblem } from '@/actions/deleteProblem';
-import styles from '@/styles/components/problemDeleteBtn.module.scss'
+import styles from '@/styles/components/testCaseDeleteBtn.module.scss'
 import commonStyles from '@/styles/common.module.scss'
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { deleteTestCase } from '@/actions/deleteTestCase';
 
-export default function ProblemDeleteBtn({
-    problemId,
+export default function TestCaseDeleteBtn({
+    id,
 }:{
-    problemId: string,
+    id: string,
 }) {
     const router = useRouter();
     const mutation = useMutation({
-        mutationFn: deleteProblem,
-        onSuccess: () => {
-            toast.success('problem deleted successfully!');
+        mutationFn: deleteTestCase,
+        onSuccess: (data) => {
+            toast.success(data);
             router.refresh();
         },
-        onError: () => {
-            toast.error('failed to delete problem!');
+        onError: (err: any) => {
+            toast.error(err);
         }
     });
     return (
@@ -31,7 +31,7 @@ export default function ProblemDeleteBtn({
             if(!confirm("Are you sure?")){
                 return;
             }
-            mutation.mutate(problemId)
+            mutation.mutate(id)
         }}
         >
             Delete

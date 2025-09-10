@@ -1,10 +1,11 @@
-import styles from '@/styles/pages/admin/problems/problems.module.scss'
+import styles from '@/styles/pages/admin/test-cases/testCases.module.scss'
 import commonStyles from '@/styles/common.module.scss'
 import ProblemFilterForm from '@/components/ProblemFilterForm';
 import fetchSections from '@/actions/fetchSections';
 import Link from 'next/link';
+import TestCaseFilterForm from '@/components/TestCaseFilterForm';
 
-export default async function layout(
+export default function layout(
     {
         children
     }:
@@ -12,16 +13,15 @@ export default async function layout(
         children: React.ReactNode
     }>
 ){
-    const sections = await fetchSections();
     return (
         <div
-        className={styles.problemsSection}
+        className={styles.testCaseSection}
         >
             <div
             className={styles.actionContainer}
             >
-                <ProblemFilterForm sections={sections}/>
-                <Link href = "/admin/create-problem">
+                <TestCaseFilterForm />
+                <Link href = "/admin/create-test-case">
                     <button
                     className={commonStyles.btn}
                     >

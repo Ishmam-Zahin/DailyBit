@@ -20,10 +20,10 @@ export default function layout(
                 className={styles.utility}
                 >
                     <button
-                    className={commonStyles.btn}
+                    className={`${commonStyles.btn} `}
                     >Settings</button>
                     <button
-                    className={commonStyles.btn}
+                    className={`${commonStyles.btn} `}
                     >logout</button>
                 </div>
             </header>
@@ -39,7 +39,7 @@ export default function layout(
                             <Link className={styles.navList} href="/admin/problems">
                                 <li>Problems</li>
                             </Link>
-                            <Link className={styles.navList} href="/admin">
+                            <Link className={styles.navList} href="/admin/test-cases">
                                 <li>Test Cases</li>
                             </Link>
                             <Link className={styles.navList} href="/admin">
