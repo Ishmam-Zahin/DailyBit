@@ -1,20 +1,20 @@
-import fetchProblems from '@/actions/fetchProblems';
 import ProblemDeleteBtn from '@/components/ProblemDeleteBtn';
-import styles from '@/styles/pages/admin/problems/problems.module.scss'
+import styles from '@/styles/pages/admin/test-cases/testCases.module.scss'
 import commonStyles from '@/styles/common.module.scss'
 import { SearchParams } from 'next/dist/server/request/search-params';
 import Link from 'next/link';
+import fetchTestCases from '@/actions/fetchTestCases';
+import TestCaseDeleteBtn from '@/components/TestCaseDeleteBtn';
 
 export default async function page(
     {searchParams}: {searchParams: Promise<SearchParams>}
 ){
     const params = await searchParams;
-    const name = params.name || '';
-    const sectionName = params.sectionName || 'all';
-    const chapterNo = params.chapterNo || -1;
-    const query = `?name=${name}&sectionName=${sectionName}&chapterNo=${chapterNo}`;
+    const testType = params.testType || 'all';
+    const problemId = params.problemId || '';
+    const query = `?testType=${testType}&problemId=${problemId}`;
     try{
-        const data = await fetchProblems(query);
+        const data = await fetchTestCases(query);
 
         return(
             <table
@@ -23,35 +23,29 @@ export default async function page(
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Section</th>
-                        <th>Chapter</th>
-                        <th>Time Limit</th>
-                        <th>Timeout</th>
+                        <th>Problem Id</th>
+                        <th>Test Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((problem: any) => {
+                    {data.map((testCase: any) => {
                         return (
-                            <tr key={problem['id']}>
-                                <td>{problem['id']}</td>
-                                <td>{problem['name']}</td>
-                                <td>{problem['section']['name']}</td>
-                                <td>{problem['chapterNo']}</td>
-                                <td>{problem['timeLimit']}</td>
-                                <td>{problem['timeout']}</td>
+                            <tr key={testCase['id']}>
+                                <td>{testCase['id']}</td>
+                                <td>{testCase['problem']['id']}</td>
+                                <td>{testCase['testType']}</td>
                                 <td
                                 >
                                     <div className={commonStyles.actionTd}>
-                                        <Link href={`/admin/edit-problem/${problem['id']}`}>
+                                        <Link href={`/admin/edit-test-case/${testCase['id']}`}>
                                             <button
                                             className={`${commonStyles.btn} ${commonStyles.editBtn}`}
                                             >
                                                 Edit
                                             </button>
                                         </Link>
-                                        <ProblemDeleteBtn problemId={problem['id']}/>
+                                        <TestCaseDeleteBtn id={testCase['id']} />
                                     </div>
                                 </td>
                             </tr>

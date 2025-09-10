@@ -3,7 +3,6 @@ package com.DailyBit.judge.controllers;
 
 import com.DailyBit.judge.DTOs.RequestTestCaseDTO;
 import com.DailyBit.judge.DTOs.ResponseTestCaseDTO;
-import com.DailyBit.judge.models.TestCase;
 import com.DailyBit.judge.others.TestType;
 import com.DailyBit.judge.services.TestCaseService;
 import jakarta.validation.Valid;
@@ -16,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class TestCaseController {
 
     private final TestCaseService testCaseService;
@@ -35,12 +34,10 @@ public class TestCaseController {
             @RequestParam(name = "testType", required = false, defaultValue = "all") String testTypeString
     ){
         Map<String, Object> message = new HashMap<>();
-
         try{
-            System.out.println(problemId);
             TestType testType = null;
             if(!testTypeString.equals("all")){
-                TestType.valueOf(testTypeString);
+                testType = TestType.valueOf(testTypeString);
             }
             List<ResponseTestCaseDTO> testCases = testCaseService.getAllTestCases(problemId, testType);
             return  ResponseEntity.ok(testCases);
@@ -84,7 +81,7 @@ public class TestCaseController {
         }
     }
 
-    @PostMapping("/test-case")
+    @PutMapping("/test-case")
     public ResponseEntity<?> updateTestCase(@Valid @RequestBody RequestTestCaseDTO requestTestCaseDTO, BindingResult result){
         Map<String, Object> message = new HashMap<>();
 

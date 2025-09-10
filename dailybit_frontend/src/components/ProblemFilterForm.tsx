@@ -28,8 +28,13 @@ export default function ProblemFilterForm(
         action={filterProblems}
         >
 
-            <input type="text" placeholder='name...' name='name'/>
+            <input
+            className={commonStyles.input}
+            type="text"
+            placeholder='name...'
+            name='name'/>
             <select
+            className={commonStyles.select}
             name = "sectionName"
             defaultValue={"all"}
             >
@@ -43,10 +48,14 @@ export default function ProblemFilterForm(
                     </option>
                 })}
             </select>
-            <input type="number" placeholder='chapter...' name='chapterNo'/>
+            <input
+            className={commonStyles.input}
+            type="number"
+            placeholder='chapter...'
+            name='chapterNo'/>
 
             <button
-            className={`${commonStyles.btn} ${commonStyles.exportBtn} ${styles.filterBtn}`}
+            className={`${commonStyles.btn}`}
             type='submit'
             >
                 Filter

@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
 
+
+:root{
+    --rimary-color-light: rgb(148, 188, 203);
+    --primary-color-dark: rgb(109, 168, 190);
+    --color-gray-1: rgb(157, 157, 157);
+}
+
 *,
 *::before,
 *::after{
@@ -15,6 +22,6 @@ html{
 }
 
 body{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
