@@ -6,6 +6,12 @@
     --rimary-color-light: rgb(148, 188, 203);
     --primary-color-dark: rgb(109, 168, 190);
     --color-gray-1: rgb(157, 157, 157);
+
+    --main-color-primary-light: #04aa6d;
+    --main-color-primary-dark: #059862;
+    --main-color-dark-1: #282A35;
+    --main-color-dark-2: #16171d;
+    --main-color-gray-1: #E7E9EB;
 }
 
 *,
@@ -23,5 +29,5 @@ html{
 
 body{
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
