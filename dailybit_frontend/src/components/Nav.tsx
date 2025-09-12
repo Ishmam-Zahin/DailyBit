@@ -14,7 +14,7 @@ export default function Nav(){
                 <li>
                     <Link
                     href='/learn/java'
-                    className={`${styles.link} ${path === '/learn/java' ? styles.active : ''}`}
+                    className={`${styles.link} ${path.startsWith('/learn/java') ? styles.active : ''}`}
                     >
                         JAVA
                     </Link>
@@ -22,7 +22,7 @@ export default function Nav(){
                 <li>
                     <Link
                     href='/learn'
-                    className={`${styles.link} ${path === '/learn/python' ? styles.active : ''}`}
+                    className={`${styles.link} ${path.startsWith('/learn/python') ? styles.active : ''}`}
                     >
                         PYTHON
                     </Link>
@@ -30,7 +30,7 @@ export default function Nav(){
                 <li>
                     <Link
                     href='/learn'
-                    className={`${styles.link} ${path === '/learn/c' ? styles.active : ''}`}
+                    className={`${styles.link} ${path.startsWith('/learn/c') ? styles.active : ''}`}
                     >
                         C
                     </Link>
@@ -38,7 +38,7 @@ export default function Nav(){
                 <li>
                     <Link
                     href='/learn'
-                    className={`${styles.link} ${path === '/learn/cpp' ? styles.active : ''}`}
+                    className={`${styles.link} ${path.startsWith('/learn/cpp') ? styles.active : ''}`}
                     >
                         C++
                     </Link>

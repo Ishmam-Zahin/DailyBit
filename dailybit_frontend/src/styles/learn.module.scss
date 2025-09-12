@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     min-width: fit-content;
+    cursor: pointer;
 
     .icon{
         width: 2rem;
@@ -202,37 +203,36 @@
 
     .pageContainer{
         overflow-y: auto;
-        position: relative;
-
-        .btnContainer{
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-
-            .toggleBtn{
-                background-color: var(--main-color-dark-1);
-                margin-top: 1rem;
-                padding: 1rem;
-                font-size: 1.6rem;
-                width: 4rem;
-                height: 4rem;
-                border-radius: 50%;
-                cursor: pointer;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 10;
-
-                .icon{
-                    width: 2.5rem;
-                    height: 2.5rem;
-                    fill: white;
-                }
-            }
-        }
 
         .leftPanel{
-            // background-color: red;
+            position: relative;
+
+            .btnContainer{
+                position: absolute;
+                bottom: 1rem;
+                right: 1rem;
+
+                .toggleBtn{
+                    background-color: var(--main-color-dark-1);
+                    margin-top: 1rem;
+                    padding: 1rem;
+                    font-size: 1.6rem;
+                    width: 4rem;
+                    height: 4rem;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10;
+
+                    .icon{
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        fill: white;
+                    }
+                }
+            }
         }
 
         .divider{
@@ -242,6 +242,50 @@
 
         .rightPanel{
             // background-color: green;
+            .divider{
+                width: 100%;
+                height: 1rem;
+                background-color: var(--main-color-gray-1);
+            }
+
+            .editorPanel{
+                .codeEditorHeader{
+                    background-color: var(--main-color-gray-1);
+                    padding: .5rem 1rem;
+                    font-size: 1.4rem;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    select{
+                        border: 2px solid black;
+                        padding: .2rem .5rem;
+                        border-radius: .5rem;
+                        cursor: pointer;
+                        margin-left: .5rem;
+                        margin-right: 1rem;
+
+                        &:active,
+                        &:focus{
+                            outline: none;
+                        }
+                    }
+
+                    .submitBtn{
+                        padding: .5rem 1rem;
+                        margin: 0;
+                    }
+
+                    .disabled{
+                        background-color: #025f3d;
+                    }
+                }
+            }
+        }
+
+        .hide{
+            display: none;
         }
     }
 }

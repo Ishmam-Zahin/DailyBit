@@ -84,7 +84,7 @@ public class JavaJudgeService {
 
         ProcessBuilder runPb = this.getExecuteProcessBuilder(tmpDir, ulimit, timeout);
         Process p = runPb.start();
-        if(input != null){
+        if(input != null && !input.isEmpty()){
             try(var writer = new PrintWriter(p.getOutputStream())){
                 writer.write(input);
                 writer.flush();
@@ -111,11 +111,16 @@ public class JavaJudgeService {
     }
 
     public String judge(String problemId, String code) throws IOException, CustomException, InterruptedException {
-        Optional<Problem> optionalProblem =  this.problemRepo.findById(problemId);
-        Problem problem = optionalProblem.orElseThrow(() -> new CustomException("Problem not found"));
 
         Path tmpDir = this.createTempJavaFile(code);
         this.compileJava(tmpDir);
+
+        if(problemId.equals("none")){
+            return this.runJava(tmpDir, null, 2, 5);
+        }
+
+        Optional<Problem> optionalProblem =  this.problemRepo.findById(problemId);
+        Problem problem = optionalProblem.orElseThrow(() -> new CustomException("Problem not found"));
 
         List<TestCase> testCases = problem.getTestCases();
 
