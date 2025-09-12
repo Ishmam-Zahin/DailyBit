@@ -1,18 +1,30 @@
 import Editor from "@monaco-editor/react";
-import { PanelGroup } from "react-resizable-panels";
+import { Dispatch, SetStateAction } from "react";
 
-export default function CodeEditor(){
+export default function CodeEditor(
+    {
+        setCode,
+        defaultValue = '//code here'
+    }:
+    {
+        setCode: Dispatch<SetStateAction<string>>
+        defaultValue?: string,
+    }
+){
     return (
         <Editor
             height="100%"
+            width="100%"
             defaultLanguage="java"
-            defaultValue="// Start coding..."
+            defaultValue={defaultValue}
             theme="vs-dark"
             options={{
             fontSize: 14,
             minimap: { enabled: false },
             automaticLayout: true,
+            readOnly: false
             }}
+            onChange={(value) => setCode(value ?? '')}
         />
     );
 }

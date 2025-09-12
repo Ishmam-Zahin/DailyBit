@@ -27,10 +27,8 @@ public class RequestTestCaseDTO {
     private TestType testType = TestType.EXACT;
 
     @NotNull(message = "Input cannot be null")
-    @NotBlank(message = "Input cannot be blank")
-    private String input;
+    private String input = "";
 
     @NotNull(message = "Output cannot be null")
-    @NotBlank(message = "Output cannot be blank")
-    private String output;
+    private String output = "";
 }
