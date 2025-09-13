@@ -10,8 +10,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.DailyBit.judge.Repository.ProblemRepo;
-import com.DailyBit.judge.Repository.TestCaseRepo;
+import com.DailyBit.judge.Repositories.ProblemRepo;
+import com.DailyBit.judge.Repositories.TestCaseRepo;
 import com.DailyBit.exceptionModel.CustomException;
 import com.DailyBit.judge.models.Problem;
 import com.DailyBit.judge.models.TestCase;
