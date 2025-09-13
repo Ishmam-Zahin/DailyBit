@@ -1,4 +1,4 @@
-package com.DailyBit.judge.Repository;
+package com.DailyBit.judge.Repositories;
 
 import java.util.List;
 

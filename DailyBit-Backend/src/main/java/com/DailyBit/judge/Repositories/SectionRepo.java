@@ -1,4 +1,4 @@
-package com.DailyBit.judge.Repository;
+package com.DailyBit.judge.Repositories;
 
 import com.DailyBit.judge.models.Section;
 import org.springframework.data.jpa.repository.JpaRepository;

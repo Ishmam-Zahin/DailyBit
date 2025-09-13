@@ -1,7 +1,7 @@
 package com.DailyBit.judge.services;
 
 
-import com.DailyBit.judge.Repository.SectionRepo;
+import com.DailyBit.judge.Repositories.SectionRepo;
 import com.DailyBit.judge.models.Section;
 import org.springframework.stereotype.Service;
 
