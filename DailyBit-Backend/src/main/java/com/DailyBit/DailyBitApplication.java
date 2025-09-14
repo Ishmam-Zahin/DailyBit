@@ -9,5 +9,4 @@ public class DailyBitApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DailyBitApplication.class, args);
 	}
-
 }
