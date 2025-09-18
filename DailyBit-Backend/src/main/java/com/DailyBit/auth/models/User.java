@@ -3,12 +3,16 @@ package com.DailyBit.auth.models;
 
 import com.DailyBit.auth.others.Gender;
 import com.DailyBit.auth.others.Role;
+import com.DailyBit.judge.models.Submission;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -51,6 +55,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 5, columnDefinition = "VARCHAR(5) DEFAULT 'USER'")
     private Role role = Role.USER;
+
+    @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ToString.Exclude
+    private List<Submission> submissions;
+
 
 
     @PrePersist

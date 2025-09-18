@@ -1,7 +1,7 @@
 import domain from "@/helper/backendDomain";
 
 export default async function fetchSections(){
-    const url = `${domain}/sections`
+    const url = `${domain}/api/sections`
     try{
         const response = await fetch(url, {
             cache: "no-store",

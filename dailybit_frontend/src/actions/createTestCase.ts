@@ -2,7 +2,7 @@ import domain from "@/helper/backendDomain";
 
 export async function createTestCase(formData : FormData) {
     const data = Object.fromEntries(formData.entries());
-    const response = await fetch(`${domain}/test-cases`, {
+    const response = await fetch(`${domain}/api/test-cases`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

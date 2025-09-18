@@ -119,6 +119,20 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+
+        .profile{
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            img{
+                width: 5rem;
+                height: 5rem;
+                border-radius: 50%;
+                background-size: contain;
+            }
+        }
     }
 }
 
@@ -282,10 +296,126 @@
                     }
                 }
             }
+
+            .outputPanel{
+                background-color: rgb(18, 18, 18);
+                font-size: 1.6rem;
+                color: white;
+                padding: 1rem 2rem;
+                font-size: 2rem;
+                font-weight: 700;
+            }
+
+            .accepted{
+                color: rgb(0, 255, 0);
+            }
+            .wa{
+                color: red;
+            }
         }
 
         .hide{
             display: none;
+        }
+    }
+}
+
+.signupContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+
+    .signup{
+        width: 60rem;
+        height: 50rem;
+        box-shadow: 0 0 2rem rgba(0, 0, 0, 0.169);
+        border-radius: 2rem;
+        overflow: hidden;
+
+        h2{
+            background-color: var(--main-color-primary-light);
+            color: white;
+            font-size: 2.2rem;
+            text-align: center;
+            padding: 1rem 0;
+            letter-spacing: 1rem;
+        }
+
+        input{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 70%;
+            font-size: 1.6rem;
+            padding: 1rem 2rem;
+            border: 2px solid black;
+            margin-bottom: 2rem;
+            border-radius: 2rem;
+
+            &:active,
+            &:focus{
+                outline: none;
+            }
+        }
+
+        .fileSelector{
+            width: fit-content;
+            height: 3rem;
+            border-radius: 1rem;
+            padding: 0 .5rem;
+            background-color: var(--main-color-dark-1);
+            color: white;
+            padding: .5rem 1rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            cursor: pointer;
+            margin-top: .5rem;
+        }
+        .displayImg{
+            margin-top: 1rem;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+        }
+
+        .ageXgender{
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 2rem;
+
+            input{
+                width: 15rem;
+                margin: 0;
+                height: 4rem;
+                border-radius: 1rem;
+            }
+
+            select{
+                border: 2px solid black;
+                cursor: pointer;
+                padding: .8rem 1rem;
+                
+                &:focus,
+                &:active{
+                    outline: none;
+                }
+            }
+        }
+
+        button{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 }

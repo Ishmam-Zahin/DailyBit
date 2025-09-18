@@ -1,7 +1,7 @@
 import domain from "@/helper/backendDomain";
 
 export default async function fetchProblems(queryString: string){
-    const url = domain + '/problems' + queryString;
+    const url = domain + '/api/problems' + queryString;
     try{
         const response = await fetch(url, {
             cache: "no-store",

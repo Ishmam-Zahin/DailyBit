@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+import com.DailyBit.auth.models.MyUserDetails;
+import com.DailyBit.judge.Repositories.SubmissionRepo;
+import com.DailyBit.judge.models.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +26,17 @@ public class JavaJudgeService {
 
     private final ProblemRepo problemRepo;
     private final TestCaseRepo testCaseRepo;
+    private final SubmissionService submissionService;
 
     private final Path javaBase = Path.of(System.getProperty("user.dir"), "judge", "java");
     private final String javaImageName = "openjdk:26-slim";
     private final String javaFileName = "Solution";
 
     @Autowired
-    public JavaJudgeService(ProblemRepo problemRepo, TestCaseRepo testCaseRepo) throws IOException {
+    public JavaJudgeService(ProblemRepo problemRepo, TestCaseRepo testCaseRepo, SubmissionService submissionService) throws IOException {
         this.problemRepo = problemRepo;
         this.testCaseRepo = testCaseRepo;
+        this.submissionService = submissionService;
 
         if(!Files.exists(javaBase)){
             Files.createDirectories(javaBase);
@@ -110,7 +115,7 @@ public class JavaJudgeService {
         }
     }
 
-    public String judge(String problemId, String code) throws IOException, CustomException, InterruptedException {
+    public String judge(String problemId, String code, MyUserDetails myUserDetails) throws IOException, CustomException, InterruptedException {
 
         Path tmpDir = this.createTempJavaFile(code);
         this.compileJava(tmpDir);
@@ -124,16 +129,30 @@ public class JavaJudgeService {
 
         List<TestCase> testCases = problem.getTestCases();
 
+        Submission submission = new Submission();
+        submission.setCode(code);
+        submission.setProblem(problem);
+        submission.setUser(myUserDetails.getUser());
+
         for(TestCase testCase : testCases){
             if(testCase.getTestType() == TestType.EXACT){
-                String output = this.runJava(tmpDir, testCase.getInput(), problem.getTimeLimit(), problem.getTimeout());
-                this.matchResult(testCase.getOutput(), output);
+                try {
+                    String output = this.runJava(tmpDir, testCase.getInput(), problem.getTimeLimit(), problem.getTimeout());
+                    this.matchResult(testCase.getOutput(), output);
+                }
+                catch (CustomException e){
+                    submission.setResult(e.getMessage());
+                    submissionService.addSubmission(submission);
+                    throw e;
+                }
             }
             else{
                 throw new CustomException("unknown");
             }
 
         }
+        submission.setResult("Accepted");
+        submissionService.addSubmission(submission);
 
         return "Accepted";
     }

@@ -1,7 +1,7 @@
 import domain from "@/helper/backendDomain";
 
 export async function deleteProblem(problemId: string) {
-    const response = await fetch(`${domain}/problem/${problemId}`, {
+    const response = await fetch(`${domain}/api/problem/${problemId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

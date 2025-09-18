@@ -2,7 +2,7 @@ import domain from "@/helper/backendDomain";
 
 export async function updateProblem(formData : FormData) {
     const data = Object.fromEntries(formData.entries());
-    const response = await fetch(`${domain}/problem`, {
+    const response = await fetch(`${domain}/api/problem`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
