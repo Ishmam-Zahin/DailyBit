@@ -200,9 +200,12 @@
             }
         }
     }
+    overflow: hidden;
 
     .pageContainer{
         overflow-y: auto;
+        height: 100%;
+        padding: 1rem;
 
         .leftPanel{
             position: relative;

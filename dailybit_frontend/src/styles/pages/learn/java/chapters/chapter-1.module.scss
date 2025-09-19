@@ -1,0 +1,108 @@
+// src/styles/pages/learn/java/chapters/chapter-1.module.scss
+.scrollContainer {
+    height: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    background: white;
+}
+
+.chapterContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    line-height: 1.6;
+    padding-bottom: 2rem; // Extra space at bottom
+}
+
+.title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 1rem;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.subtitle {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #2980b9;
+}
+
+.paragraph {
+    font-size: 1.1rem;
+    color: #34495e;
+    margin-bottom: 1rem;
+}
+
+.list {
+    padding-left: 2rem;
+    margin: 1rem 0;
+    
+    li {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        color: #34495e;
+        line-height: 1.5;
+    }
+}
+
+.codeBlock {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    overflow-x: auto;
+    
+    pre {
+        margin: 0;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        white-space: pre-wrap;
+    }
+}
+
+.note {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 2rem;
+    color: #856404;
+    font-style: italic;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .scrollContainer {
+        padding: 0.5rem;
+    }
+    
+    .chapterContent {
+        padding: 0.5rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+}
