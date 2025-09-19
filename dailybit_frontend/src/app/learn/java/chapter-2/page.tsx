@@ -1,13 +1,14 @@
 import chapterStyles from '@/styles/pages/learn/java/chapters/chapter.module.scss'
-import Chapter1Content from '@/components/learn/java/chapters/Chapter1Content'
+
+import Chapter2Content from '@/components/learn/java/chapters/Chapter2Content';
 export default function Page() {
     return (
         <div className={chapterStyles.scrollContainer}>
             <div className={chapterStyles.chapterContent}>
                 
-                <h1 className={chapterStyles.title}>Java Fundamentals</h1>
+                <h1 className={chapterStyles.title}>Control Flow Statements</h1>
                 
-                <Chapter1Content />
+                <Chapter2Content />
                 
             </div>
         </div>
