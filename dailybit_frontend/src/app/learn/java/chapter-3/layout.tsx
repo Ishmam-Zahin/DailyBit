@@ -22,6 +22,7 @@ export default function layout(
         children = {children}
         defaultValue={defaultValue}
         problemIds={problemIds}
+        aiTitle='java intro'
         />
     )
 }

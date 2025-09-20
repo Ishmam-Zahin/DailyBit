@@ -1,7 +1,6 @@
 import MainHeader from '@/components/MainHeader';
-import Nav from '@/components/Nav';
 import styles from '@/styles/learn.module.scss'
-import Link from 'next/link';
+
 
 export default function layout(
     {
@@ -14,7 +13,6 @@ export default function layout(
     return (
         <>
             <MainHeader />
-            <Nav />
             <main
             className={styles.main}
             >

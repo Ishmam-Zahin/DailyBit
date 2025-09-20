@@ -179,6 +179,59 @@
     }
 }
 
+.quizContainer{
+    font-size: 1.6rem;
+    width: 100%;
+    min-height: 30rem;
+    position: relative;
+    border: 1px solid var(--main-color-primary-dark);
+    padding: 1rem;
+
+    .startContainer{
+        background-color: rgba(128, 128, 128, 0.728);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h2{
+        border: 1px solid var(--main-color-primary-dark);
+        text-align: center;
+        padding: 1rem 2rem;
+        font-size: 2rem;
+        border-radius: 2rem;
+    }
+
+    .optionsContainer{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        margin-top: 2rem;
+        row-gap: 2rem;
+        column-gap: 2rem;
+
+        .optionBtn{
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--main-color-primary-light);
+            padding: 1rem 2rem;
+            cursor: pointer;
+        }
+        .selected{
+            background-color: var(--main-color-gray-1);
+        }
+        .correct{
+            background-color: var(--main-color-primary-light);
+        }
+        .wa{
+            background-color: red;
+        }
+    }
+}
+
 .main{
     display: grid;
     grid-template-columns: 20rem 1fr;
