@@ -1,6 +1,9 @@
+'use client'
+
 import styles from '@/styles/pages/admin/admin.module.scss'
 import commonStyles from '@/styles/common.module.scss'
 import Link from 'next/link'
+import { useAppSelector } from '@/redux/ReduxStore'
 
 export default function layout(
     {
@@ -10,6 +13,17 @@ export default function layout(
         children: React.ReactNode
     }>
 ){
+    const roles:object[]|null = useAppSelector(state=>state.user.roles)
+    if(roles === null) {
+        return (
+            <p>you are not authorized</p>
+        );
+    }
+    if(roles[0]['authority'] !== 'ADMIN'){
+        return (
+            <p>you are not authorized</p>
+        );
+    }
     return(
         <>
             <header
