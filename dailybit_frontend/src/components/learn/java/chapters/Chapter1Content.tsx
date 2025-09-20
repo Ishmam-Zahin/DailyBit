@@ -1,4 +1,5 @@
 // src/components/learn/java/chapters/Chapter1Content.tsx
+import Quiz from '@/components/Quiz';
 import chapterStyles from '@/styles/pages/learn/java/chapters/chapter.module.scss'
 
 export default function Chapter1Content() {
@@ -303,6 +304,10 @@ public class InputExample {
 
             <div className={chapterStyles.warning}>
                 Be careful when mixing nextInt(), nextDouble() with nextLine()! These methods don't consume the newline character, which can cause issues. Use input.nextLine() after numeric input if you need to read a line of text afterward.
+            </div>
+
+            <div>
+                <Quiz></Quiz>
             </div>
 
             <div className={chapterStyles.tryItSection}>
