@@ -3,6 +3,7 @@
 import { createTestCase } from '@/actions/createTestCase';
 import { updateTestCase } from '@/actions/updateTestCase';
 import { javaTemplate } from '@/helper/defaultTemplates';
+import { useAppSelector } from '@/redux/ReduxStore';
 import commonStyles from '@/styles/common.module.scss'
 import styles from '@/styles/components/testCaseForm.module.scss'
 import { useMutation } from '@tanstack/react-query';
@@ -19,6 +20,7 @@ export default function TestCaseForm(
         update?: boolean
     }
 ){
+    const token = useAppSelector(state => state.user.token);
     const router = useRouter()
     const mutation = useMutation({
         mutationFn: update ? updateTestCase : createTestCase,
@@ -34,7 +36,7 @@ export default function TestCaseForm(
     const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget);
-        mutation.mutate(formData);
+        mutation.mutate({formData, token});
     }
     return (
         <form

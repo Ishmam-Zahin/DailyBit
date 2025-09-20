@@ -4,17 +4,20 @@ import styles from '@/styles/pages/admin/problems/problems.module.scss'
 import commonStyles from '@/styles/common.module.scss'
 import { SearchParams } from 'next/dist/server/request/search-params';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 
 export default async function page(
     {searchParams}: {searchParams: Promise<SearchParams>}
 ){
+    const cooki = await cookies();
+    const token = cooki.get('jwt_token')?.value ?? null;
     const params = await searchParams;
     const name = params.name || '';
     const sectionName = params.sectionName || 'all';
     const chapterNo = params.chapterNo || -1;
-    const query = `?name=${name}&sectionName=${sectionName}&chapterNo=${chapterNo}`;
+    const queryString = `?name=${name}&sectionName=${sectionName}&chapterNo=${chapterNo}`;
     try{
-        const data = await fetchProblems(query);
+        const data = await fetchProblems({queryString, token});
 
         return(
             <table

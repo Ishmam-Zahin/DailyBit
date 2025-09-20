@@ -3,6 +3,7 @@
 import { createProblem } from '@/actions/createProblem';
 import { updateProblem } from '@/actions/updateProblem';
 import { javaTemplate } from '@/helper/defaultTemplates';
+import { useAppSelector } from '@/redux/ReduxStore';
 import commonStyles from '@/styles/common.module.scss'
 import styles from '@/styles/components/problemForm.module.scss'
 import { useMutation } from '@tanstack/react-query';
@@ -21,6 +22,7 @@ export default function ProblemForm(
         update?: boolean
     }
 ){
+    const token = useAppSelector(state => state.user.token);
     const router = useRouter()
     const mutation = useMutation({
         mutationFn: update ? updateProblem : createProblem,
@@ -36,7 +38,7 @@ export default function ProblemForm(
     const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget);
-        mutation.mutate(formData);
+        mutation.mutate({formData, token});
     }
     return (
         <form

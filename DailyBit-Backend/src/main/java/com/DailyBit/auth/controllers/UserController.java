@@ -3,15 +3,20 @@ package com.DailyBit.auth.controllers;
 
 import com.DailyBit.auth.DTOs.AuthRequestDTO;
 import com.DailyBit.auth.DTOs.RequestUserDTO;
+import com.DailyBit.auth.models.MyUserDetails;
 import com.DailyBit.auth.services.JWTUtils;
 import com.DailyBit.auth.services.UserService;
 import com.DailyBit.exceptionModel.CustomException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class UserController {
 
     private final UserService userService;
@@ -66,7 +71,7 @@ public class UserController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody AuthRequestDTO authRequestDTO, BindingResult result) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequestDTO authRequestDTO, BindingResult result, HttpServletResponse response) {
         Map<String, Object> message = new HashMap<>();
 
         if(result.hasErrors()) {
@@ -78,9 +83,18 @@ public class UserController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequestDTO.getUserName(), authRequestDTO.getPassword())
             );
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
             String token = jwtUtils.generateToken(userDetails);
-            message.put("message", "success");
+            ResponseCookie jwtCookie = ResponseCookie
+                    .from("jwt_token", token)
+                            .httpOnly(true)
+                                    .secure(true)
+                                            .path("/")
+                                                    .sameSite("None")
+                                                            .build();
+            response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+            message.put("userName",  userDetails.getUsername());
+            message.put("avatar", userDetails.getAvatarLink());
             message.put("token", token);
             return ResponseEntity.ok(message);
         }
@@ -88,5 +102,40 @@ public class UserController {
             message.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(message);
         }
+    }
+
+    @GetMapping("auth/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response, @AuthenticationPrincipal MyUserDetails myUserDetails) {
+        Map<String, Object> message = new HashMap<>();
+        if(myUserDetails == null) {
+            message.put("message", "user already logged out");
+            return ResponseEntity.badRequest().body(message);
+        }
+        ResponseCookie jwtCookie = ResponseCookie
+                .from("jwt_token", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("None")
+                .maxAge(0)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+        message.put("message", "success");
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/auth/userInfo")
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal MyUserDetails myUserDetails, @RequestHeader("Authorization") String token) {
+        Map<String, Object> message = new HashMap<>();
+        if(myUserDetails == null) {
+            message.put("message", "invalid user");
+            return ResponseEntity.badRequest().body(message);
+        }
+        message.put("userName", myUserDetails.getUsername());
+        message.put("avatar", myUserDetails.getAvatarLink());
+        token = token.substring(7);
+        message.put("token", token);
+
+        return ResponseEntity.ok(message);
     }
 }
