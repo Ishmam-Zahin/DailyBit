@@ -6,6 +6,8 @@ import com.DailyBit.judge.models.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubmissionService {
 
@@ -18,5 +20,9 @@ public class SubmissionService {
 
     public void addSubmission(Submission submission) {
         submissionRepo.save(submission);
+    }
+
+    public List<Submission> getAllSubmissions(String problemId) {
+        return submissionRepo.findAllByProblemId(problemId);
     }
 }

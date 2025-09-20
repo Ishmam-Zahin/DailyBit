@@ -5,16 +5,19 @@ import { SearchParams } from 'next/dist/server/request/search-params';
 import Link from 'next/link';
 import fetchTestCases from '@/actions/fetchTestCases';
 import TestCaseDeleteBtn from '@/components/TestCaseDeleteBtn';
+import { cookies } from 'next/headers';
 
 export default async function page(
     {searchParams}: {searchParams: Promise<SearchParams>}
 ){
+    const cooki = await cookies();
+    const token = cooki.get('jwt_token')?.value ?? null;
     const params = await searchParams;
     const testType = params.testType || 'all';
     const problemId = params.problemId || '';
-    const query = `?testType=${testType}&problemId=${problemId}`;
+    const queryString = `?testType=${testType}&problemId=${problemId}`;
     try{
-        const data = await fetchTestCases(query);
+        const data = await fetchTestCases({queryString, token});
 
         return(
             <table

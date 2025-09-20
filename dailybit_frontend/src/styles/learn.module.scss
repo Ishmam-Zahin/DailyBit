@@ -1,7 +1,6 @@
 .btn{
     background-color: var(--main-color-primary-dark);
     color: white;
-    margin: 1rem;
     padding: .8rem 1.5rem;
     border-radius: 1rem;
     display: flex;
@@ -24,17 +23,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
     transition: all .1s;
 
     &:hover{
         background-color: rgb(224, 224, 224);
     }
+    &:active{
+        background-color: rgb(139, 139, 139);
+    }
 
     .icon{
         width: 2rem;
         height: 2rem;
-        margin-right: .7rem;
     }
 }
 
@@ -117,12 +119,14 @@
     .rightHeader{
         height: 100%;
         display: flex;
+        gap: 1rem;
         justify-content: space-evenly;
         align-items: center;
 
         .profile{
             width: fit-content;
             display: flex;
+            gap: 1rem;
             flex-direction: row;
             align-items: center;
             justify-content: center;
@@ -246,6 +250,12 @@
                         fill: white;
                     }
                 }
+
+                .active{
+                    .icon{
+                        fill: var(--main-color-primary-light);
+                    }
+                }
             }
         }
 
@@ -255,6 +265,18 @@
         }
 
         .rightPanel{
+
+            .blockContainer{
+                font-size: 2.2rem;
+                background-color: var(--main-color-dark-1);
+                color: white;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
             // background-color: green;
             .divider{
                 width: 100%;
@@ -302,8 +324,57 @@
                 font-size: 1.6rem;
                 color: white;
                 padding: 1rem 2rem;
-                font-size: 2rem;
+                font-size: 1.6rem;
                 font-weight: 700;
+
+                .outputHeader{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 1rem;
+                    padding-bottom: 1rem;
+                    border-bottom: 1px solid var(--main-color-primary-light);
+
+                    button{
+                        padding: .2rem .5rem;
+                        background-color: var(--main-color-gray-1);
+                        color: black;
+                        font-size: 1.4rem;
+                        font-weight: normal;
+                    }
+
+                    .active{
+                        background-color: var(--main-color-primary-light);
+                        color: white;
+                    }
+                }
+
+                .container{
+                    height: 100%;
+                    overflow-y: auto;
+
+                    .submissionCard{
+                        background-color: var(--main-color-gray-1);
+                        color: black;
+                        font-size: 1.2rem;
+                        padding: .8rem;
+                        border-radius: 1rem;
+                        overflow: hidden;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr 1fr;
+                        align-items: center;
+                        justify-items: center;
+                        margin-top: 1rem;
+
+                        .accept{
+                            color: rgb(0, 214, 0);
+                        }
+                        .wa{
+                            color: red;
+                        }
+                    }
+                }
             }
 
             .accepted{
@@ -311,6 +382,68 @@
             }
             .wa{
                 color: red;
+            }
+
+            .aiPanel{
+                background-color: var(--main-color-dark-1);
+                width: 100%;
+                height: 100%;
+                font-size: 1.6rem;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+
+                .messagesBlock{
+                    padding: 1rem 2rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    gap: 1rem;
+                    overflow-y: auto;
+                    flex-grow: 1;
+
+                    .aiMessage{
+                        background-color: rgb(97, 97, 97);
+                        padding: 1rem;
+                        color: white;
+                        border-radius: 1rem;
+                        margin-right: auto;
+                    }
+
+                    .userMessage{
+                        background-color: rgb(97, 97, 97);
+                        padding: 1rem;
+                        color: white;
+                        border-radius: 1rem;
+                        margin-left: auto;
+                    }
+                }
+
+                .messageInput{
+                    border: 1px solid green;
+                    padding: .5rem;
+                    height: fit-content;
+
+                    textarea{
+                        width: 100%;
+                        background-color: white;
+                        padding: .8rem 1rem;
+                        min-height: 10rem;
+                        max-height: 20rem;
+                        border-radius: 2rem;
+                        overflow: hidden;
+
+
+                        &:focus,
+                        &:active{
+                            outline: none;
+                        }
+                    }
+
+                    button{
+                        margin: 0;
+                    }
+                }
             }
         }
 

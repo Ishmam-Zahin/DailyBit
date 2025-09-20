@@ -6,12 +6,14 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { deleteTestCase } from '@/actions/deleteTestCase';
+import { useAppSelector } from '@/redux/ReduxStore';
 
 export default function TestCaseDeleteBtn({
     id,
 }:{
     id: string,
 }) {
+    const token = useAppSelector(state => state.user.token);
     const router = useRouter();
     const mutation = useMutation({
         mutationFn: deleteTestCase,
@@ -31,7 +33,7 @@ export default function TestCaseDeleteBtn({
             if(!confirm("Are you sure?")){
                 return;
             }
-            mutation.mutate(id)
+            mutation.mutate({id, token});
         }}
         >
             Delete

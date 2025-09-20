@@ -6,17 +6,20 @@ import fetchProblemDetails from '@/actions/fetchProblemDetails';
 import Link from 'next/link';
 import fetchTestCaseDetails from '@/actions/fetchTestCaseDetails';
 import TestCaseForm from '@/components/TestCaseForm';
+import { cookies } from 'next/headers';
 
 export default async function page(
     {
         params
     }:
     {
-        params: Promise<{id: String}>
+        params: Promise<{id: string}>
     }
 ){
+    const cooki = await cookies();
+    const token = cooki.get('jwt_token')?.value ?? null;
     const {id} = await params;
-    const testCaseDetails = await fetchTestCaseDetails(id);
+    const testCaseDetails = await fetchTestCaseDetails({id, token});
     return (
         <div
         className={styles.container}

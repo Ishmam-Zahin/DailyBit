@@ -5,18 +5,21 @@ import fetchSections from '@/actions/fetchSections';
 import fetchProblemDetails from '@/actions/fetchProblemDetails';
 import Link from 'next/link';
 import TestCaseDeleteBtn from '@/components/TestCaseDeleteBtn';
+import { cookies } from 'next/headers';
 
 export default async function page(
     {
         params
     }:
     {
-        params: Promise<{problemId: String}>
+        params: Promise<{problemId: string}>
     }
 ){
+    const cooki = await cookies();
+    const token = cooki.get('jwt_token')?.value ?? null;
     const {problemId} = await params;
-    const p1 = fetchSections();
-    const p2 = fetchProblemDetails(problemId);
+    const p1 = fetchSections({token});
+    const p2 = fetchProblemDetails({problemId, token});
     const [sections, problemDetails] = await Promise.all([p1, p2]);
     return (
         <div

@@ -16,16 +16,21 @@ export default async function RootLayout({
     avatar: null,
     token: null,
   }
-  const response = await fetch(`${domain}/auth/userInfo`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-    },
-  })
-  if(response.status == 200){
-    storeInitials = await response.json();
+  try{
+    const response = await fetch(`${domain}/auth/userInfo`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+      },
+    })
+    if(response.status == 200){
+      storeInitials = await response.json();
+    }
+  }
+  catch(err){
+    console.log(err);
   }
   return (
     <html lang="en">

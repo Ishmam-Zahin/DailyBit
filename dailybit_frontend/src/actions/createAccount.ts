@@ -1,7 +1,7 @@
 import domain from "@/helper/backendDomain";
 
 export default async function createAccount({form, token}: {form: FormData, token: string | null}) {
-    const response = await fetch(`http://localhost:8080/auth/create-account`, {
+    const response = await fetch(`${domain}/auth/create-account`, {
         method: "POST",
         cache: 'no-store',
         credentials: "include",

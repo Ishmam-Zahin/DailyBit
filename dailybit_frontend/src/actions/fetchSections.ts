@@ -1,14 +1,15 @@
 import domain from "@/helper/backendDomain";
 
-export default async function fetchSections(){
+export default async function fetchSections({token}:{token:string|null}){
     const url = `${domain}/api/sections`
     try{
         const response = await fetch(url, {
             cache: "no-store",
             method: "GET",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Authorization": `Bearer ${token || ''}`
+            },
         });
         if(response.status >= 300){
             throw 'internel server error!';
