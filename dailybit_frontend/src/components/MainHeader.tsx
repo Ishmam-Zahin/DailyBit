@@ -17,7 +17,11 @@ export default function MainHeader(){
                 <div
                 className={styles.logo}
                 >
-                    DailyBit
+                    <Link
+                    href='/learn'
+                    >
+                        DailyBit
+                    </Link>
                 </div>
                 <button
                 className={styles.drop}
