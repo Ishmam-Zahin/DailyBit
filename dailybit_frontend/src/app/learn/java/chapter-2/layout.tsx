@@ -22,7 +22,7 @@ export default function layout(
         children = {children}
         defaultValue={defaultValue}
         problemIds={problemIds}
-        aiTitel='Java Fundamentals'
+        aiTitle='Control Flow Statements'
         />
     )
 }

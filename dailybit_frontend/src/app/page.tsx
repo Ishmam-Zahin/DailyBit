@@ -16,7 +16,11 @@ export default function LandingPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#16a34a', margin: 0 }}>
-              DailyBit
+              <Link
+              href='/'
+              >
+                DailyBit
+              </Link>
             </h1>
             <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
               <div style={{ display: 'none', gap: '2rem', '@media (min-width: 768px)': { display: 'flex' } }}>
@@ -87,8 +91,8 @@ export default function LandingPage() {
             >
               Start Learning Free
             </Link>
-            <a 
-              href="#courses" 
+            <Link 
+              href="/learn" 
               style={{ 
                 border: '2px solid #16a34a', 
                 color: '#16a34a', 
@@ -101,7 +105,7 @@ export default function LandingPage() {
               }}
             >
               View Courses
-            </a>
+            </Link>
           </div>
           
           {/* Stats */}

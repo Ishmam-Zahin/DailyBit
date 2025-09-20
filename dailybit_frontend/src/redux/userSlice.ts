@@ -5,6 +5,7 @@ export const userSlice = createSlice({
     initialState: {
         userName: null,
         avatar: null,
+        roles: null,
         token: null,
     },
     reducers: {
@@ -12,11 +13,13 @@ export const userSlice = createSlice({
             const user = action.payload;
             state.userName = user['userName'];
             state.avatar = user['avatar'];
-            state.token = user['token']
+            state.roles = user['roles']
+            state.token = user['token'];
         },
         resetUser: (state) =>{
             state.userName = null;
             state.avatar = null;
+            state.roles = null;
             state.token = null;
         }
     }
