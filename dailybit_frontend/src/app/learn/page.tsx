@@ -1,5 +1,8 @@
+import CourseGrid from "@/components/learn/CourseGrid";
+
 export default function page(){
     return (
-        <main>learn</main>
+
+            <CourseGrid />
     );
 }
