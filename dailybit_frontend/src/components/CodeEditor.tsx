@@ -4,11 +4,11 @@ import { Dispatch, SetStateAction } from "react";
 export default function CodeEditor(
     {
         setCode,
-        defaultValue = '//code here'
+        code = '//code here'
     }:
     {
         setCode: Dispatch<SetStateAction<string>>
-        defaultValue?: string,
+        code?: string,
     }
 ){
     return (
@@ -16,7 +16,7 @@ export default function CodeEditor(
             height="100%"
             width="100%"
             defaultLanguage="java"
-            defaultValue={defaultValue}
+            value={code}
             theme="vs-dark"
             options={{
             fontSize: 14,

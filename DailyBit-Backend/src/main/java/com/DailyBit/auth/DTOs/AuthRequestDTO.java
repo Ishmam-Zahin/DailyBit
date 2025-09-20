@@ -16,8 +16,6 @@ public class AuthRequestDTO {
 
     @NotBlank(message = "user name can not be null")
     @NotNull(message = "user name can not be blank")
-    @Size(min = 3, max = 20, message = "user name must be between 3 to 20 characters")
-    @Pattern(regexp = "^[a-z0-9_]+$", message = "only lowercase letters, digits, and underscores are allowed")
     private String userName;
 
     @NotNull(message = "password can not be null")

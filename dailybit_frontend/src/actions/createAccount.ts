@@ -1,14 +1,14 @@
 import domain from "@/helper/backendDomain";
 
-export async function createProblem({formData, token}:{formData: FormData, token: String|null}) {
-    const data = Object.fromEntries(formData.entries());
-    const response = await fetch(`${domain}/api/problems`, {
+export default async function createAccount({form, token}: {form: FormData, token: string | null}) {
+    const response = await fetch(`${domain}/auth/create-account`, {
         method: "POST",
+        cache: 'no-store',
         credentials: "include",
         headers: {
             "Authorization": `Bearer ${token || ''}`
         },
-        body: JSON.stringify(data),
+        body: form,
     });
 
     const json = await response.json();
@@ -19,4 +19,5 @@ export async function createProblem({formData, token}:{formData: FormData, token
     }
 
     return m;
+    
 }

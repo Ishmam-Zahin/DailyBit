@@ -6,12 +6,14 @@ import commonStyles from '@/styles/common.module.scss'
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useAppSelector } from '@/redux/ReduxStore';
 
 export default function ProblemDeleteBtn({
     problemId,
 }:{
     problemId: string,
 }) {
+    const token = useAppSelector(state => state.user.token);
     const router = useRouter();
     const mutation = useMutation({
         mutationFn: deleteProblem,
@@ -31,7 +33,7 @@ export default function ProblemDeleteBtn({
             if(!confirm("Are you sure?")){
                 return;
             }
-            mutation.mutate(problemId)
+            mutation.mutate({problemId, token});
         }}
         >
             Delete

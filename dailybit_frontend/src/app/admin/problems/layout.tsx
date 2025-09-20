@@ -3,6 +3,7 @@ import commonStyles from '@/styles/common.module.scss'
 import ProblemFilterForm from '@/components/ProblemFilterForm';
 import fetchSections from '@/actions/fetchSections';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 
 export default async function layout(
     {
@@ -12,7 +13,9 @@ export default async function layout(
         children: React.ReactNode
     }>
 ){
-    const sections = await fetchSections();
+    const cooki = await cookies();
+    const token = cooki.get('jwt_token')?.value ?? null;
+    const sections = await fetchSections({token});
     return (
         <div
         className={styles.problemsSection}

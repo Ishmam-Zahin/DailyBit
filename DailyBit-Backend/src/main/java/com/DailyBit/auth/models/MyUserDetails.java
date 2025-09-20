@@ -14,6 +14,14 @@ public class MyUserDetails implements UserDetails {
         this.user = user;
     }
 
+    public String getAvatarLink(){
+        return this.user.getAvatar();
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(user.getRole().name()));
