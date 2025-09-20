@@ -19,7 +19,8 @@
     "react-hot-toast": "^2.6.0",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
-    "react-resizable-panels": "^3.0.5"
+    "react-resizable-panels": "^3.0.5",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
