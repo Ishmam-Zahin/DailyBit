@@ -183,7 +183,7 @@ const CoursesGrid: React.FC = () => {
       
       <div className={styles.coursesGrid}>
         {courses.map((course) => (
-          <Link href={`/learn/${course.id}`} key={course.id} className={styles.courseCard}>
+          <Link href={`/learn${course.id === 'java' ? '/java' : ''}`} key={course.id} className={styles.courseCard}>
             <div className={styles.cardHeader}>
               <div className={styles.iconWrapper}>
                 <div className={styles.icon}>
@@ -241,7 +241,7 @@ const CoursesGrid: React.FC = () => {
       <div className={styles.callToAction}>
         <h2>Not sure where to start?</h2>
         <p>Take our quick assessment to find the perfect course for your skill level</p>
-        <Link href="/assessment" className={styles.assessmentButton}>
+        <Link href="/" className={styles.assessmentButton}>
           Take Assessment
         </Link>
       </div>

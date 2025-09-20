@@ -18,7 +18,7 @@ export default function MainHeader(){
                 className={styles.logo}
                 >
                     <Link
-                    href='/learn'
+                    href='/'
                     >
                         DailyBit
                     </Link>
