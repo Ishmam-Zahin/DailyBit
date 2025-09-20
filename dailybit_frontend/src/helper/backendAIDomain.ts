@@ -1,0 +1,1 @@
+export const aiDomain = 'http://localhost:8000';

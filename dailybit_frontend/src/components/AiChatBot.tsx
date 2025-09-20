@@ -1,6 +1,11 @@
 'use client'
+import askAI from '@/actions/askAI';
+import { AIQuery } from '@/helper/types';
 import styles from '@/styles/learn.module.scss';
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import ReactMarkdown from "react-markdown";
 
 
 type Message = {
@@ -8,27 +13,43 @@ type Message = {
     agent: 'user' | 'ai',
     message: string
 }
-
-const initial:Message[] = [{
-    key: `user${Date.now()}`,
-    agent: 'user',
-    message: 'hello how are you'
-},{
-    key: `ai${Date.now()}`,
-    agent: 'ai',
-    message: 'i am ok zahin. how are you?'
-}]
-
 export default function AiChatBot(
     {
-        context,
+        title,
     }:
     {
-        context: string
+        title: string
     }
 ){
-    const [messages, setMessages] = useState<Message[]>(initial);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [query, setQuery] = useState('');
+    const mutation = useMutation({
+        mutationFn: askAI,
+        onSuccess: (data) => {
+            const newMessage:Message = {
+                key: `ai${Date.now()}`,
+                agent: 'ai',
+                message: data['llm_response']['llm_response'] ?? 'no message'
+            };
+            setMessages(state => {
+                return [...state, newMessage];
+            })
+        },
+        onError: (err: string)=>{
+            toast.error(err);
+        }
+    });
+
+    const handleAskAI = () => {
+        const json:AIQuery = {
+            query: query,
+            context: title,
+            n_results: 2,
+            similarity_threshold: 0.5,
+        }
+        setQuery('');
+        return mutation.mutate({json});
+    }
     return (
         <div
         className={styles.aiPanel}
@@ -36,14 +57,19 @@ export default function AiChatBot(
             <div
             className={styles.messagesBlock}
             >
-                {messages.map(message => {
+                {messages.length === 0 ? <div
+                className={styles.aiNoMessage}
+                >Ask AI</div> : messages.map(message => {
                     return (
                         <div
                         key={message.key}
                         className={message.agent === 'ai' ? styles.aiMessage : styles.userMessage}
                         >
-                            {message.message}
+                            <ReactMarkdown>
+                                {message.message}
+                            </ReactMarkdown>
                         </div>
+
                     );
                 })}
             </div>
@@ -57,17 +83,21 @@ export default function AiChatBot(
                 />
                 <button
                 className={`${styles.btn}`}
+                disabled={mutation.isPending}
                 onClick={() => {
-                    if(query === '') return;
                     const newMessage:Message = {
                         key: `user${Date.now()}`,
                         agent: 'user',
-                        message: query,
+                        message: query
                     };
-                    setQuery('');
-                    setMessages(state => [...state, newMessage]);
+                    setMessages(state => {
+                        return [...state, newMessage];
+                    })
+                    handleAskAI()
                 }}
-                >send</button>
+                >
+                    {mutation.isPending ? 'Loading...' : 'Send'}
+                </button>
             </div>
         </div>
     );

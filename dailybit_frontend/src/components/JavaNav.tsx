@@ -30,7 +30,7 @@ export default function JavaNav(){
                 </li>
                 <li>
                     <Link
-                    href='/learn/java'
+                    href='/learn/java/chapter-2'
                     className={`${styles.link} ${path === '/learn/java/chapter-2' ? styles.active : ''}`}
                     >
                         Chapter 02
@@ -38,7 +38,7 @@ export default function JavaNav(){
                 </li>
                 <li>
                     <Link
-                    href='/learn/java'
+                    href='/learn/java/chapter-3'
                     className={`${styles.link} ${path === '/learn/java/chapter-3' ? styles.active : ''}`}
                     >
                         Chapter 03

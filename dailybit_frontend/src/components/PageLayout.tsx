@@ -18,11 +18,13 @@ export default function PageLayout(
         children,
         defaultValue,
         problemIds,
+        aiTitle,
     }:
     Readonly<{
         children: React.ReactNode,
         defaultValue: string,
-        problemIds: string[]
+        problemIds: string[],
+        aiTitle: string,
     }>
 ){
 
@@ -134,7 +136,7 @@ export default function PageLayout(
                         order={2}
                         defaultSize={40}
                         minSize={20}>
-                            <AiChatBot context='chapter-1' />
+                            <AiChatBot title={aiTitle} />
                         </Panel>
                     </>
                 )}
