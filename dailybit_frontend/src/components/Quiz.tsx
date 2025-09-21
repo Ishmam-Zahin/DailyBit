@@ -2,7 +2,7 @@
 
 import fetchQuizQuestions from '@/actions/fetchQuizQuestions';
 import { QuizQuestion, QuizRequest } from '@/helper/types';
-import styles from '@/styles/learn.module.scss'
+import styles from '@/styles/quiz/quiz.module.scss'
 import { useMutation } from '@tanstack/react-query';
 import { use, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -26,6 +26,7 @@ export default function Quiz(
     const [score, setScore] = useState(0);
     const [showResult, setShowResult] = useState(false);
     const[showExplanation, setShowExplanation] = useState(false);
+    
     const mutation = useMutation({
         mutationFn: fetchQuizQuestions,
         onSuccess: (data)=>{
@@ -35,113 +36,146 @@ export default function Quiz(
             console.log(err);
         }
     })
+
+    const resetQuiz = () => {
+        setSelected(null);
+        setRevealAnswer(false);
+        setQuestions([]);
+        setScore(0);
+        setShowResult(false);
+        setCurrentQuestion(0);
+        setShowExplanation(false);
+    }
+
     return (
-        <div
-        className={styles.quizContainer}
-        >
-            {revealAnswer && (
-                <button
-                className={styles.btn}
-                onClick={() => setShowExplanation(true)}
-                >show why</button>
-            )}
+        <div className={styles.quizContainer}>
+            {/* Show Explanation Modal */}
             {showExplanation && (
-                <div
-                className={styles.startContainer}
-                >
-                    {questions[currentQuestion].explanation}
+                <div className={styles.startContainer}>
+                    <h3 style={{ color: '#1f2937', fontSize: '2rem', marginBottom: '1rem' }}>
+                        Explanation
+                    </h3>
+                    <p style={{ color: '#374151', fontSize: '1.6rem', lineHeight: '1.6', textAlign: 'center' }}>
+                        {questions[currentQuestion].explanation}
+                    </p>
                     <button
-                    className={styles.btn}
-                    onClick={()=>setShowExplanation(false)}
+                        className={`${styles.btn} ${styles.cancel}`}
+                        onClick={() => setShowExplanation(false)}
                     >
-                        cancel
+                        Close
                     </button>
                 </div>
             )}
+
+            {/* Start Quiz Screen */}
             {questions.length === 0 && (
-                <div
-                className={styles.startContainer}
-                >
+                <div className={styles.startContainer}>
                     <button
-                    className={styles.btn}
-                    onClick={()=>mutation.mutate({json})}
+                        className={styles.btn}
+                        onClick={() => mutation.mutate({json})}
+                        disabled={mutation.isPending}
                     >
                         {mutation.isPending ? 'Loading...' : 'Start Quiz'}
                     </button>
                 </div>
             )}
+
+            {/* Results Screen */}
             {showResult && (
-                <div
-                className={styles.startContainer}
-                >
-                    <p>Score: {score}</p>
+                <div className={styles.startContainer}>
+                    <p>Final Score: {score} / {questions.length}</p>
                     <button
-                    className={styles.btn}
-                    onClick={()=>{
-                        setSelected(null);
-                        setRevealAnswer(false);
-                        setQuestions([]);
-                        setScore(0);
-                        setShowResult(false);
-                    }}
+                        className={`${styles.btn} ${styles.playAgain}`}
+                        onClick={resetQuiz}
                     >
-                        {mutation.isPending ? 'Loading...' : 'PLAY AGAIN'}
+                        Play Again
                     </button>
                 </div>
             )}
-            {(questions.length > 0) && (
+
+            {/* Quiz Questions */}
+            {(questions.length > 0 && !showResult) && (
                 <>
                     <h2>{questions[currentQuestion].question}</h2>
-                    <div
-                    className={styles.optionsContainer}
-                    >
-                        {questions[currentQuestion].options.map(option => {
+                    
+                    <div className={styles.optionsContainer}>
+                        {questions[currentQuestion].options.map((option, index) => {
+                            const letters = ['A', 'B', 'C', 'D'];
                             return (
                                 <button
-                                key={option}
-                                className={`${styles.optionBtn} ${selected === option ? styles.selected : ''} ${(revealAnswer && selected && option[0] === questions[currentQuestion].correct_answer) ? styles.correct : ''} ${(revealAnswer && selected && selected === option && option[0] !== questions[currentQuestion].correct_answer) ? styles.wa : ''}`}
-                                onClick={()=> {
-                                    if(revealAnswer) return;
-                                    setSelected(state => {
-                                        if(state == option) return null;
-                                        return option;
-                                    });
-                                }}
+                                    key={option}
+                                    data-letter={letters[index]}
+                                    className={`${styles.optionBtn} 
+                                        ${selected === option ? styles.selected : ''} 
+                                        ${(revealAnswer && option[0] === questions[currentQuestion].correct_answer) ? styles.correct : ''} 
+                                        ${(revealAnswer && selected === option && option[0] !== questions[currentQuestion].correct_answer) ? styles.wa : ''}`}
+                                    onClick={() => {
+                                        if(revealAnswer) return;
+                                        setSelected(state => {
+                                            if(state == option) return null;
+                                            return option;
+                                        });
+                                    }}
                                 >
-                                    {option}
+                                    {option.substring(3)} {/* Remove the "A. ", "B. " etc. prefix since we're showing it in ::before */}
                                 </button>
                             );
                         })}
                     </div>
-                    {selected && !revealAnswer && (
-                        <button
-                        className={styles.btn}
-                        onClick={() => {
-                            if(selected[0] === questions[currentQuestion].correct_answer){
-                                setScore(state => state + 1)
-                            }
-                            setRevealAnswer(true);
-                        }}
-                        >EVALUATE</button>
-                    )}
-                    {revealAnswer && ((currentQuestion + 1) < questions.length) && (
-                        <button
-                        className={styles.btn}
-                        onClick={() => {
-                            setSelected(null);
-                            setRevealAnswer(false);
-                            setCurrentQuestion(state => state + 1);
-                        }}
-                        >NEXT</button>
-                    )}
-                    {revealAnswer && ((currentQuestion + 1) === questions.length) && (
-                        <button
-                        className={styles.btn}
-                        onClick={() => {
-                            setShowResult(true);
-                        }}
-                        >FINISH</button>
-                    )}
+
+                    {/* Action Buttons Container */}
+                    <div className={styles.buttonContainer}>
+                        {/* Show explanation button - only show after answer is revealed */}
+                        {revealAnswer && (
+                            <button
+                                className={`${styles.btn} ${styles.showExplanation}`}
+                                onClick={() => setShowExplanation(true)}
+                            >
+                                Show Explanation
+                            </button>
+                        )}
+
+                        {/* Evaluate button - only show when answer is selected but not revealed */}
+                        {selected && !revealAnswer && (
+                            <button
+                                className={styles.btn}
+                                onClick={() => {
+                                    if(selected[0] === questions[currentQuestion].correct_answer){
+                                        setScore(state => state + 1)
+                                    }
+                                    setRevealAnswer(true);
+                                }}
+                            >
+                                EVALUATE
+                            </button>
+                        )}
+
+                        {/* Next button - only show after answer is revealed and not last question */}
+                        {revealAnswer && ((currentQuestion + 1) < questions.length) && (
+                            <button
+                                className={styles.btn}
+                                onClick={() => {
+                                    setSelected(null);
+                                    setRevealAnswer(false);
+                                    setCurrentQuestion(state => state + 1);
+                                }}
+                            >
+                                NEXT QUESTION
+                            </button>
+                        )}
+
+                        {/* Finish button - only show after answer is revealed and is last question */}
+                        {revealAnswer && ((currentQuestion + 1) === questions.length) && (
+                            <button
+                                className={styles.btn}
+                                onClick={() => {
+                                    setShowResult(true);
+                                }}
+                            >
+                                FINISH QUIZ
+                            </button>
+                        )}
+                    </div>
                 </>
             )}
         </div>

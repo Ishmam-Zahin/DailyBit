@@ -31,7 +31,8 @@ export default function ProblemForm(
             router.push('/admin/problems')
         },
         onError: (err: any) => {
-            toast.error(err);
+            // toast.error(err);
+            console.log(err);
         }
     });
 
