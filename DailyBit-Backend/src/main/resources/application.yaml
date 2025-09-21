@@ -2,9 +2,7 @@ spring:
   application:
     name: DailyBit
   datasource:
-    url: jdbc:postgresql://localhost:5432/dailybit
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://ep-aged-sound-adbn3wqi-pooler.c-2.us-east-1.aws.neon.tech/neondb?user=neondb_owner&password=npg_fvE57nhqoeFO&sslmode=require&channelBinding=require
   jpa:
     hibernate:
       ddl-auto: update

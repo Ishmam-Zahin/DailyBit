@@ -28,12 +28,12 @@ public class JudgeController {
     }
 
     @PostMapping("/judge/problem")
-    public ResponseEntity<?> judgeProblem(@RequestBody SubmissionDTO submissionDTO, @AuthenticationPrincipal MyUserDetails user) throws IOException, CustomException, InterruptedException {
+    public ResponseEntity<?> judgeProblem(@RequestBody SubmissionDTO submissionDTO, @AuthenticationPrincipal MyUserDetails myUserDetails) throws IOException, CustomException, InterruptedException {
         Map<String, Object> message = new HashMap<>();
 
         try {
             if(submissionDTO.getLanguage().equals("java")){
-                String output = javaJudgeService.judge(submissionDTO.getProblemId(), submissionDTO.getCode(), user);
+                String output = javaJudgeService.judge(submissionDTO.getProblemId(), submissionDTO.getCode(), myUserDetails);
                 message.put("output", output);
                 return ResponseEntity.ok(message);
             }

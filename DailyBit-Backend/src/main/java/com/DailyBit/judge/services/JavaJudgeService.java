@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.DailyBit.auth.models.MyUserDetails;
-import com.DailyBit.judge.Repositories.SubmissionRepo;
 import com.DailyBit.judge.models.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.DailyBit.judge.Repositories.ProblemRepo;
-import com.DailyBit.judge.Repositories.TestCaseRepo;
 import com.DailyBit.exceptionModel.CustomException;
 import com.DailyBit.judge.models.Problem;
 import com.DailyBit.judge.models.TestCase;
@@ -25,17 +23,14 @@ import com.DailyBit.judge.others.TestType;
 public class JavaJudgeService {
 
     private final ProblemRepo problemRepo;
-    private final TestCaseRepo testCaseRepo;
     private final SubmissionService submissionService;
 
     private final Path javaBase = Path.of(System.getProperty("user.dir"), "judge", "java");
-    private final String javaImageName = "openjdk:26-slim";
     private final String javaFileName = "Solution";
 
     @Autowired
-    public JavaJudgeService(ProblemRepo problemRepo, TestCaseRepo testCaseRepo, SubmissionService submissionService) throws IOException {
+    public JavaJudgeService(ProblemRepo problemRepo, SubmissionService submissionService) throws IOException {
         this.problemRepo = problemRepo;
-        this.testCaseRepo = testCaseRepo;
         this.submissionService = submissionService;
 
         if(!Files.exists(javaBase)){
@@ -43,58 +38,39 @@ public class JavaJudgeService {
         }
     }
 
-    private ProcessBuilder getCompileProcessBuilder(Path dir){
+    private ProcessBuilder getExecuteProcessBuilder(Path dir, int uLimit, int timeout){
+        final String javaImageName = "java-runner:latest";
         ProcessBuilder pb = new ProcessBuilder(
                 "docker", "run", "--rm",
-                "-v", dir + ":/home", javaImageName,
-                "javac", "/home/" + javaFileName + ".java"
-        );
-        pb.redirectErrorStream(true);
-
-        return  pb;
-    }
-
-    private ProcessBuilder getExecuteProcessBuilder(Path dir, int ulimit, int timeout){
-        ProcessBuilder pb = new ProcessBuilder(
-                "docker", "run", "--rm", "-i",
                 "--memory=256m", "--cpus=1",
-                "-v", dir + ":/home", javaImageName,
-                "bash", "-c", "ulimit -t " + ulimit + "; timeout " + timeout + " java -cp /home " + javaFileName
+                "-v", dir + ":/java/code", javaImageName,
+                "bash", "-c",
+                "cd /java/code && timeout " + timeout + " javac " + javaFileName + ".java && ulimit -t " + uLimit + " && java " + javaFileName + " < input.txt"
         );
         pb.redirectErrorStream(true);
 
         return  pb;
     }
 
-    private Path createTempJavaFile(String code) throws IOException {
-        Path tmpDir = Files.createTempDirectory(this.javaBase, "temp_");
-        Path tmpJavaFile = tmpDir.resolve(this.javaFileName + ".java");
-        Files.writeString(tmpJavaFile, code);
+    private Path createTempJavaFile(String code, String userName) throws IOException {
+        Path tmpDir = Files.createTempDirectory(this.javaBase, userName + "_temp_");
+        Path codeFileDir = tmpDir.resolve("code");
+        Files.createDirectories(codeFileDir);
+        Path codeFile = codeFileDir.resolve(this.javaFileName + ".java");
+        Path inputFile = codeFileDir.resolve("input.txt");
+        Files.writeString(codeFile, code);
+        Files.writeString(inputFile, "");
 
-        return tmpDir;
+        return codeFileDir;
     }
 
-    private void compileJava(Path tmpDir) throws IOException, InterruptedException, CustomException {
-        ProcessBuilder compilePb = this.getCompileProcessBuilder(tmpDir);
-        Process p = compilePb.start();
-        String output = new String(p.getInputStream().readAllBytes());
-        int exitCode = p.waitFor();
-        if(exitCode != 0){
-            throw new CustomException("Compilation Error: " + output);
-        }
-    }
-
-    private String runJava(Path tmpDir, String input, int ulimit, int timeout) throws IOException, InterruptedException, CustomException {
+    private String runJava(Path codeFileDir, String input, int uLimit, int timeout) throws IOException, InterruptedException, CustomException {
         String result;
+        Path inputFile = codeFileDir.resolve("input.txt");
+        Files.writeString(inputFile, input);
 
-        ProcessBuilder runPb = this.getExecuteProcessBuilder(tmpDir, ulimit, timeout);
+        ProcessBuilder runPb = this.getExecuteProcessBuilder(codeFileDir, uLimit, timeout);
         Process p = runPb.start();
-        if(input != null && !input.isEmpty()){
-            try(var writer = new PrintWriter(p.getOutputStream())){
-                writer.write(input);
-                writer.flush();
-            }
-        }
         result = new String(p.getInputStream().readAllBytes());
         int exitCode = p.waitFor();
 
@@ -117,11 +93,10 @@ public class JavaJudgeService {
 
     public String judge(String problemId, String code, MyUserDetails myUserDetails) throws IOException, CustomException, InterruptedException {
 
-        Path tmpDir = this.createTempJavaFile(code);
-        this.compileJava(tmpDir);
+        Path codeFileDir = this.createTempJavaFile(code, myUserDetails.getUsername());
 
         if(problemId.equals("none")){
-            return this.runJava(tmpDir, null, 2, 5);
+            return this.runJava(codeFileDir, "", 2, 5);
         }
 
         Optional<Problem> optionalProblem =  this.problemRepo.findById(problemId);
@@ -137,7 +112,7 @@ public class JavaJudgeService {
         for(TestCase testCase : testCases){
             if(testCase.getTestType() == TestType.EXACT){
                 try {
-                    String output = this.runJava(tmpDir, testCase.getInput(), problem.getTimeLimit(), problem.getTimeout());
+                    String output = this.runJava(codeFileDir, testCase.getInput(), problem.getTimeLimit(), problem.getTimeout());
                     this.matchResult(testCase.getOutput(), output);
                 }
                 catch (CustomException e){
