@@ -6,6 +6,7 @@ export async function updateTestCase({formData, token}:{formData: FormData, toke
         method: "PUT",
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
         body: JSON.stringify(data),

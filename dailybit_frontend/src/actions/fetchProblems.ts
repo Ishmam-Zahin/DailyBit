@@ -8,6 +8,7 @@ export default async function fetchProblems({queryString, token}:{queryString: s
             method: "GET",
             credentials: "include",
             headers: {
+                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${token || ''}`
             },
         });

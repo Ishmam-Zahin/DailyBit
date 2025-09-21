@@ -7,7 +7,7 @@ export default async function loginUser(body: any) {
         cache: 'no-store',
         credentials: "include",
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
     });

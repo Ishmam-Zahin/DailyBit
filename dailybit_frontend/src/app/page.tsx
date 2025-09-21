@@ -23,7 +23,7 @@ export default function LandingPage() {
               </Link>
             </h1>
             <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-              <div style={{ display: 'none', gap: '2rem', '@media (min-width: 768px)': { display: 'flex' } }}>
+              <div style={{ display: 'none', gap: '2rem' }}>
                 <a href="#courses" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>Courses</a>
                 <a href="#features" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>Features</a>
                 <a href="#about" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>About</a>

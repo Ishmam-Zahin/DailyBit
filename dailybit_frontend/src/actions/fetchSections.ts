@@ -8,6 +8,7 @@ export default async function fetchSections({token}:{token:string|null}){
             method: "GET",
             credentials: "include",
             headers: {
+                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${token || ''}`
             },
         });

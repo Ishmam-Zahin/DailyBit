@@ -5,6 +5,7 @@ export async function deleteProblem({problemId, token}: {problemId: string, toke
         method: "DELETE",
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
     });

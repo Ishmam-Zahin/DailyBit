@@ -7,6 +7,7 @@ export default async function fetchSubmissions({problemId, token}:{problemId:str
         method: "GET",
         credentials: 'include',
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
     })
