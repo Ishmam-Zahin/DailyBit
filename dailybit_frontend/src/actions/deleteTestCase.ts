@@ -5,6 +5,7 @@ export async function deleteTestCase({id, token}:{id:string, token: string|null}
         method: "DELETE",
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
     });

@@ -310,21 +310,49 @@ public class InputExample {
                 <Quiz></Quiz>
             </div>
 
-            <div className={chapterStyles.tryItSection}>
-                <h2 className={chapterStyles.tryItTitle}>Try It Yourself!</h2>
-                
-                <div className={chapterStyles.tryItTask}>
-                    <p><strong>Store your personal details in variables and print them</strong> Build a program that collects and displays your name, age, and favorite color.</p>
-                </div>
+<div className={chapterStyles.tryItSection}>
+    <h2 className={chapterStyles.tryItTitle}>Try It Yourself!</h2>
+    
+    <div className={chapterStyles.tryItTask}>
+        <p>
+            <strong>JV001: Student Information</strong><br />
+            Write a program that takes a student's name, age, and GPA as input and prints them in a formatted way.
+        </p>
+        <p><strong>Test Case:</strong><br />
+        Input: <code><br />Emma<br />16<br />3.75</code><br />
+        Output:<br />
+        <code>
+            === Student Information ===<br />
+            Name: Emma<br />
+            Age: 16<br />
+            GPA: 3.75
+        </code>
+        </p>
+    </div>
 
-                <div className={chapterStyles.tryItTask}>
-                    <p><strong>Build a basic Calculator:</strong> Create a program that performs basic arithmetic operations (addition, subtraction, multiplication, division) on two numbers.</p>
-                </div>
+        <div className={chapterStyles.tryItTask}>
+            <p>
+                <strong>JV002: Simple Calculator</strong><br />
+                Write a program that takes two integers and prints their sum, difference, product, and quotient.
+            </p>
+            <p><strong>Test Case:</strong><br />
+            Input: <code><br />15<br />4</code><br />
+            Output:<br />
+            <code>
+                === Results ===<br />
+                Sum: 19<br />
+                Difference: 11<br />
+                Product: 60<br />
+                Quotient: 3
+            </code>
+            </p>
+        </div>
 
-                <div className={chapterStyles.success}>
-                    Remember: every expert was once a beginner. Start with simple programs and gradually add complexity as you become more comfortable!
-                </div>
-            </div>
+        <div className={chapterStyles.success}>
+            Remember: every expert was once a beginner. Start with simple programs and gradually add complexity as you become more comfortable!
+        </div>
+    </div>
+
         </>
     );
 }

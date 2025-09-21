@@ -8,6 +8,7 @@ export default async function fetchProblemDetails({problemId, token}:{problemId:
             method: "GET",
             credentials: "include",
             headers: {
+                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${token || ''}`
             },
         });

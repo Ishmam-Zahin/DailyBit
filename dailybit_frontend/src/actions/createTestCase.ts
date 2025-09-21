@@ -6,6 +6,7 @@ export async function createTestCase({formData, token}: {formData: FormData, tok
         method: "POST",
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
         body: JSON.stringify(data),

@@ -6,6 +6,7 @@ export async function createProblem({formData, token}:{formData: FormData, token
         method: "POST",
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
         body: JSON.stringify(data),

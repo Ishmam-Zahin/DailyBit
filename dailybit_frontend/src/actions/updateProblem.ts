@@ -6,6 +6,7 @@ export async function updateProblem({formData, token}:{formData: FormData, token
         method: "PUT",
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
         body: JSON.stringify(data),

@@ -6,7 +6,7 @@ const defaultValue = `class Solution{
     }
 }`;
 
-const problemIds = ['JV001', 'JV002', 'JV003'];
+const problemIds = ['JV001', 'JV002'];
 
 export default function layout(
     {

@@ -6,6 +6,7 @@ export default async function createAccount({form, token}: {form: FormData, toke
         cache: 'no-store',
         credentials: "include",
         headers: {
+            'Content-Type': 'application/json',
             "Authorization": `Bearer ${token || ''}`
         },
         body: form,

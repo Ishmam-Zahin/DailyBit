@@ -8,6 +8,7 @@ export default async function fetchTestCaseDetails({id, token}:{id:string, token
             method: "GET",
             credentials: "include",
             headers: {
+                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${token || ''}`
             },
         });
