@@ -133,6 +133,7 @@ public class UserController {
         }
         message.put("userName", myUserDetails.getUsername());
         message.put("avatar", myUserDetails.getAvatarLink());
+        message.put("roles", myUserDetails.getAuthorities());
         token = token.substring(7);
         message.put("token", token);
 
