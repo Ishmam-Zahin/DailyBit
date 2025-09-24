@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,8 @@ public class JavaJudgeService {
     private final ProblemRepo problemRepo;
     private final SubmissionService submissionService;
 
-    private final Path javaBase = Path.of(System.getProperty("user.dir"), "judge", "java");
+    private final String sharedVolume = System.getenv().getOrDefault("JUDGE_VOLUME", "not found");
+    private final Path javaBase = Path.of("judge", "java");
     private final String javaFileName = "Solution";
 
     @Autowired
@@ -43,9 +45,9 @@ public class JavaJudgeService {
         ProcessBuilder pb = new ProcessBuilder(
                 "docker", "run", "--rm",
                 "--memory=256m", "--cpus=1",
-                "-v", dir + ":/java/code", javaImageName,
+                "-v", sharedVolume + ":/java/judge", javaImageName,
                 "bash", "-c",
-                "cd /java/code && timeout " + timeout + " javac " + javaFileName + ".java && ulimit -t " + uLimit + " && java " + javaFileName + " < input.txt"
+                "cd " + dir + " && timeout " + timeout + " javac " + javaFileName + ".java && ulimit -t " + uLimit + " && java " + javaFileName + " < input.txt"
         );
         pb.redirectErrorStream(true);
 
