@@ -1,6 +1,5 @@
 package com.DailyBit.judge.controllers;
 
-
 import com.DailyBit.auth.models.MyUserDetails;
 import com.DailyBit.exceptionModel.CustomException;
 import com.DailyBit.judge.DTOs.SubmissionDTO;
@@ -28,23 +27,37 @@ public class JudgeController {
     }
 
     @PostMapping("/judge/problem")
-    public ResponseEntity<?> judgeProblem(@RequestBody SubmissionDTO submissionDTO, @AuthenticationPrincipal MyUserDetails user) throws IOException, CustomException, InterruptedException {
+    public ResponseEntity<?> judgeProblem(@RequestBody SubmissionDTO submissionDTO,
+            @AuthenticationPrincipal MyUserDetails user) throws IOException, CustomException, InterruptedException {
         Map<String, Object> message = new HashMap<>();
 
         try {
-            if(submissionDTO.getLanguage().equals("java")){
+            if (submissionDTO.getLanguage().equals("java")) {
                 String output = javaJudgeService.judge(submissionDTO.getProblemId(), submissionDTO.getCode(), user);
                 message.put("output", output);
                 return ResponseEntity.ok(message);
-            }
-            else{
+            } else {
                 message.put("message", "unknown language");
                 return ResponseEntity.badRequest().body(message);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             message.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(message);
         }
+    }
+
+    ///////////////////////
+    ///
+    @GetMapping("/docker-test")
+    public String dockerTest() throws Exception {
+        Process p = new ProcessBuilder("docker", "run", "hello-world").start();
+        return new String(p.getInputStream().readAllBytes()) +
+                new String(p.getErrorStream().readAllBytes());
+    }
+
+    @GetMapping("/server-test")
+    public String serverTest() throws Exception {
+        String message = "Hello from server. you serer is working!!!";
+        return message;
     }
 }
