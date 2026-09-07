@@ -1,12 +1,9 @@
-import styles from '@/styles/pages/admin/admin.module.scss'
-
 export default function page(){
-    return(
-        
-        <div
-        className={styles.mainContentSection}
-        >
-            Welcome to Admin Panel!!!
-        </div>
+return(
+<div
+className="flex items-center justify-center h-full text-center text-2xl font-bold text-sky-600"
+>
+Welcome to Admin Panel!!!
+</div>
     )
 }
