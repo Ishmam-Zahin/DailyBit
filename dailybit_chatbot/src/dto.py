@@ -19,7 +19,7 @@ class ChunkDTO(BaseModel):
     id: int = Field(gt = 0)
     course_id: int = Field(gt = 0)
     chapter_id: int = Field(gt = 0)
-    text: str = Field(min_length = 10)
+    text: str = Field(min_length = 1)
     embedding: list[float] | None
     created_at: datetime
     updated_at: datetime

@@ -44,6 +44,12 @@ export type ChapterSummary = {
   name: string
 }
 
+export type EmbeddingCreateDTO = {
+  course_id: number,
+  chapter_id: number,
+  text: string
+}
+
 export type Embedding = {
   id: number
   course_id: number

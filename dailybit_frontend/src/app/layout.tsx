@@ -1,6 +1,6 @@
 import '@/globals.css';
 import Providers from '@/components/Providers';
-import { cookies} from 'next/headers';
+import { cookies } from 'next/headers';
 import domain from '@/helper/backendDomain';
 
 

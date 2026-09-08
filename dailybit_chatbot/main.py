@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Select
 from sqlalchemy.orm import sessionmaker, Session
 from src.models import Base, Chunk, Conversation
@@ -11,6 +12,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 db_url = os.getenv("DB_URL")
 engine = create_engine(url = db_url)
 session = sessionmaker(bind = engine, autoflush = False, autocommit = False)
@@ -39,7 +51,13 @@ def create_embeddings(chunk_full: ChunkCreateDTO, db: Session = Depends(get_db))
     db.add_all(chunks)
     db.commit()
 
-    return {'message': 'success'}
+    for chunk in chunks:
+        db.refresh(chunk)
+
+    return [
+        ChunkDTO.model_validate(chunk)
+        for chunk in chunks
+    ]
 
 @app.get("/embedding", response_model=list[ChunkDTO])
 def get_embeddings(
@@ -88,6 +106,10 @@ from fastapi import HTTPException, Query
 from sqlalchemy import delete
 
 
+from fastapi import HTTPException, Query
+from sqlalchemy import delete
+
+
 @app.delete("/embedding")
 def delete_embeddings(
     course_id: int | None = Query(default=None, gt=0),
@@ -95,25 +117,67 @@ def delete_embeddings(
     id: int | None = Query(default=None, gt=0),
     db: Session = Depends(get_db)
 ):
-    statement = delete(Chunk)
+    # --------------------------------------------------
+    # Validate the allowed parameter combinations
+    # --------------------------------------------------
 
-    # If id is provided, delete that specific chunk
-    if id is not None:
-        statement = statement.where(
-            Chunk.id == id
-        )
+    # Case 1:
+    # Nothing provided -> delete ALL chunks
+    if course_id is None and chapter_id is None and id is None:
+        statement = delete(Chunk)
 
-    # Filter by course if provided
-    if course_id is not None:
-        statement = statement.where(
+    # Case 2:
+    # Only course_id -> delete all chunks belonging to course
+    elif (
+        course_id is not None
+        and chapter_id is None
+        and id is None
+    ):
+        statement = delete(Chunk).where(
             Chunk.course_id == course_id
         )
 
-    # Filter by chapter if provided
-    if chapter_id is not None:
-        statement = statement.where(
+    # Case 3:
+    # course_id + chapter_id -> delete chunks belonging
+    # to that specific chapter of that specific course
+    elif (
+        course_id is not None
+        and chapter_id is not None
+        and id is None
+    ):
+        statement = delete(Chunk).where(
+            Chunk.course_id == course_id,
             Chunk.chapter_id == chapter_id
         )
+
+    # Case 4:
+    # course_id + chapter_id + id -> delete that specific chunk
+    elif (
+        course_id is not None
+        and chapter_id is not None
+        and id is not None
+    ):
+        statement = delete(Chunk).where(
+            Chunk.course_id == course_id,
+            Chunk.chapter_id == chapter_id,
+            Chunk.id == id
+        )
+
+    # Everything else is invalid
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Invalid parameters. Allowed combinations are: "
+                "no parameters, course_id, "
+                "course_id + chapter_id, or "
+                "course_id + chapter_id + id."
+            )
+        )
+
+    # --------------------------------------------------
+    # Execute deletion
+    # --------------------------------------------------
 
     try:
         result = db.execute(statement)
@@ -126,10 +190,7 @@ def delete_embeddings(
 
         db.commit()
 
-        return {
-            "message": f"{result.rowcount} chunk(s) deleted successfully.",
-            "deleted_count": result.rowcount
-        }
+        return 'deleted'
 
     except HTTPException:
         raise

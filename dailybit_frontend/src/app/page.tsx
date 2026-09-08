@@ -3,42 +3,22 @@ import Link from 'next/link';
 
 export default function LandingPage() {
   return (
-    <div style={{ backgroundColor: '#ffffff', color: '#1f2937', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div
+      className="min-h-screen bg-white text-gray-800"
+      style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+    >
       {/* Navigation */}
-      <nav style={{ 
-        backgroundColor: '#f9fafb', 
-        borderBottom: '1px solid #e5e7eb', 
-        position: 'sticky', 
-        top: 0, 
-        zIndex: 50,
-        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#16a34a', margin: 0 }}>
-              <Link
-              href='/'
-              >
-                DailyBit
-              </Link>
+      <nav className="sticky top-0 z-50 border-b border-gray-200 bg-gray-50 shadow-sm">
+        <div className="mx-auto max-w-6xl px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="m-0 text-2xl font-bold text-green-600">
+              <Link href="/">DailyBit</Link>
             </h1>
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-              <div style={{ display: 'none', gap: '2rem' }}>
-                <a href="#courses" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>Courses</a>
-                <a href="#features" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>Features</a>
-                <a href="#about" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>About</a>
-              </div>
-              <Link 
-                href="/login" 
-                style={{ 
-                  backgroundColor: '#16a34a', 
-                  color: 'white', 
-                  padding: '0.75rem 1.5rem', 
-                  borderRadius: '0.5rem',
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  fontSize: '1.2rem'
-                }}
+
+            <div className="flex items-center gap-6">
+              <Link
+                href="/login"
+                className="rounded-lg bg-green-600 px-5 py-2.5 text-base font-semibold text-white no-underline transition-colors hover:bg-green-700"
               >
                 Get Started
               </Link>
@@ -48,312 +28,224 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section style={{ 
-        padding: '6rem 1rem', 
-        background: 'linear-gradient(to bottom, #ffffff, #f9fafb)',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 style={{ 
-            fontSize: '4.5rem', 
-            fontWeight: 'bold', 
-            marginBottom: '2rem',
-            lineHeight: '1.1',
-            color: '#111827'
-          }}>
-            Learn Programming<br />
-            <span style={{ color: '#16a34a' }}>From Scratch</span>
+      <section className="bg-gradient-to-b from-white to-gray-50 px-4 py-20 text-center">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-6 text-5xl font-bold leading-tight text-gray-900">
+            Learn Programming
+            <br />
+            <span className="text-green-600">From Scratch</span>
           </h2>
-          <p style={{ 
-            fontSize: '1.5rem', 
-            color: '#4b5563', 
-            marginBottom: '3rem', 
-            maxWidth: '700px',
-            margin: '0 auto 3rem auto',
-            lineHeight: '1.6'
-          }}>
-            Master programming with our interactive courses, practice problems, and AI-powered assistance.
+
+          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-gray-500">
+            Master programming with our interactive courses, practice
+            problems, and AI-powered assistance.
           </p>
-          
-          <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '5rem' }}>
-            <Link 
-              href="/signup" 
-              style={{ 
-                backgroundColor: '#16a34a', 
-                color: 'white', 
-                padding: '1rem 2.5rem', 
-                borderRadius: '0.75rem',
-                textDecoration: 'none',
-                fontWeight: '600',
-                fontSize: '1.3rem',
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-              }}
+
+          <div className="mb-16 flex flex-wrap justify-center gap-4">
+            <Link
+              href="/signup"
+              className="rounded-xl bg-green-600 px-8 py-3.5 text-base font-semibold text-white no-underline shadow-lg transition-colors hover:bg-green-700"
             >
               Start Learning Free
             </Link>
-            <Link 
-              href="/learn" 
-              style={{ 
-                border: '2px solid #16a34a', 
-                color: '#16a34a', 
-                padding: '1rem 2.5rem', 
-                borderRadius: '0.75rem',
-                textDecoration: 'none',
-                fontWeight: '600',
-                fontSize: '1.3rem',
-                backgroundColor: 'transparent'
-              }}
+
+            <Link
+              href="/learn"
+              className="rounded-xl border-2 border-green-600 bg-transparent px-8 py-3.5 text-base font-semibold text-green-600 no-underline transition-colors hover:bg-green-50"
             >
               View Courses
             </Link>
           </div>
-          
+
           {/* Stats */}
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(3, 1fr)', 
-            gap: '3rem', 
-            maxWidth: '500px',
-            margin: '0 auto'
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#16a34a' }}>50K+</div>
-              <div style={{ color: '#6b7280', fontSize: '1.1rem' }}>Students</div>
+          <div className="mx-auto grid max-w-lg grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600">50K+</div>
+              <div className="mt-1 text-sm text-gray-500">Students</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#16a34a' }}>500+</div>
-              <div style={{ color: '#6b7280', fontSize: '1.1rem' }}>Problems</div>
+
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600">500+</div>
+              <div className="mt-1 text-sm text-gray-500">Problems</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#16a34a' }}>24/7</div>
-              <div style={{ color: '#6b7280', fontSize: '1.1rem' }}>AI Help</div>
+
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600">24/7</div>
+              <div className="mt-1 text-sm text-gray-500">AI Help</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" style={{ 
-        padding: '6rem 1rem', 
-        backgroundColor: '#f9fafb'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <h3 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#111827' }}>
+      <section id="features" className="bg-gray-50 px-4 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 text-center">
+            <h3 className="mb-4 text-3xl font-bold text-gray-900">
               Why Choose DailyBit?
             </h3>
-            <p style={{ color: '#4b5563', fontSize: '1.4rem' }}>
+
+            <p className="text-lg text-gray-500">
               Everything you need to master programming
             </p>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
-            gap: '2.5rem'
-          }}>
+          <div
+            className="grid gap-8"
+            style={{
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            }}
+          >
             <FeatureCard
               title="Interactive Code Editor"
               description="Write and test code in real-time with our built-in editor."
               icon="💻"
-              iconBg="#dbeafe"
+              iconBg="bg-blue-100"
             />
+
             <FeatureCard
               title="AI Assistant"
               description="Get instant help and guidance from our AI-powered chatbot."
               icon="🤖"
-              iconBg="#f3e8ff"
+              iconBg="bg-purple-100"
             />
+
             <FeatureCard
               title="Practice Problems"
               description="Solve coding challenges with automated testing and feedback."
               icon="✅"
-              iconBg="#dcfce7"
+              iconBg="bg-green-100"
             />
+
             <FeatureCard
               title="Instant Feedback"
               description="Get real-time feedback on your code and solutions."
               icon="⚡"
-              iconBg="#fef3c7"
+              iconBg="bg-yellow-100"
             />
+
             <FeatureCard
               title="Structured Learning"
               description="Follow our step-by-step curriculum from beginner to advanced."
               icon="📚"
-              iconBg="#e0e7ff"
+              iconBg="bg-indigo-100"
             />
+
             <FeatureCard
               title="Community Support"
               description="Connect with other students and get help from the community."
               icon="👥"
-              iconBg="#fce7f3"
+              iconBg="bg-pink-100"
             />
           </div>
         </div>
       </section>
 
       {/* Courses Section */}
-      <section id="courses" style={{ 
-        padding: '6rem 1rem', 
-        backgroundColor: '#ffffff'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <h3 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#111827' }}>
+      <section id="courses" className="bg-white px-4 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 text-center">
+            <h3 className="mb-4 text-3xl font-bold text-gray-900">
               Available Courses
             </h3>
-            <p style={{ color: '#4b5563', fontSize: '1.4rem' }}>
+
+            <p className="text-lg text-gray-500">
               Start your programming journey today
             </p>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', 
-            gap: '3rem',
-            maxWidth: '1000px',
-            margin: '0 auto'
-          }}>
+          <div
+            className="mx-auto grid max-w-4xl gap-8"
+            style={{
+              gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+            }}
+          >
             {/* Java Course */}
-            <div style={{ 
-              backgroundColor: '#ffffff', 
-              padding: '2.5rem', 
-              borderRadius: '1rem',
-              border: '1px solid #e5e7eb',
-              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem' }}>
-                <div style={{ 
-                  width: '5rem', 
-                  height: '5rem', 
-                  backgroundColor: '#fed7aa', 
-                  borderRadius: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '1.5rem',
-                  fontSize: '2rem'
-                }}>
+            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-lg">
+              <div className="mb-6 flex items-center">
+                <div className="mr-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-orange-200 text-3xl">
                   ☕
                 </div>
+
                 <div>
-                  <h4 style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0, color: '#111827' }}>
+                  <h4 className="m-0 text-2xl font-bold text-gray-900">
                     Java Programming
                   </h4>
-                  <p style={{ color: '#4b5563', margin: '0.5rem 0 0 0', fontSize: '1.2rem' }}>
+
+                  <p className="mb-0 mt-2 text-base text-gray-500">
                     Complete Java course from basics to advanced
                   </p>
                 </div>
               </div>
-              
-              <ul style={{ marginBottom: '2rem', padding: 0, listStyle: 'none' }}>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', color: '#374151', fontSize: '1.2rem' }}>
-                  <span style={{ color: '#16a34a', marginRight: '1rem', fontSize: '1.4rem' }}>✓</span>
+
+              <ul className="mb-8 list-none p-0">
+                <li className="mb-3 flex items-center text-base text-gray-700">
+                  <span className="mr-3 text-xl text-green-600">✓</span>
                   Chapter 1: Java Fundamentals
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', color: '#374151', fontSize: '1.2rem' }}>
-                  <span style={{ color: '#16a34a', marginRight: '1rem', fontSize: '1.4rem' }}>✓</span>
+
+                <li className="mb-3 flex items-center text-base text-gray-700">
+                  <span className="mr-3 text-xl text-green-600">✓</span>
                   Chapter 2: Object-Oriented Programming
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', color: '#374151', fontSize: '1.2rem' }}>
-                  <span style={{ color: '#16a34a', marginRight: '1rem', fontSize: '1.4rem' }}>✓</span>
+
+                <li className="mb-3 flex items-center text-base text-gray-700">
+                  <span className="mr-3 text-xl text-green-600">✓</span>
                   Chapter 3: Advanced Concepts
                 </li>
               </ul>
-              
-              <Link 
-                href="/learn/java" 
-                style={{ 
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'center',
-                  backgroundColor: '#16a34a', 
-                  color: 'white', 
-                  padding: '1rem', 
-                  borderRadius: '0.75rem',
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '1.3rem'
-                }}
+
+              <Link
+                href="/learn/java"
+                className="block w-full rounded-xl bg-green-600 py-3.5 text-center text-base font-semibold text-white no-underline transition-colors hover:bg-green-700"
               >
                 Start Java Course
               </Link>
             </div>
 
             {/* Coming Soon */}
-            <div style={{ 
-              backgroundColor: '#f9fafb', 
-              padding: '2.5rem', 
-              borderRadius: '1rem',
-              border: '1px solid #e5e7eb',
-              position: 'relative'
-            }}>
-              <div style={{ 
-                position: 'absolute', 
-                top: '1.5rem', 
-                right: '1.5rem', 
-                backgroundColor: '#2563eb', 
-                color: 'white', 
-                padding: '0.5rem 1rem', 
-                borderRadius: '2rem',
-                fontSize: '1rem',
-                fontWeight: '600'
-              }}>
+            <div className="relative rounded-2xl border border-gray-200 bg-gray-50 p-8">
+              <div className="absolute right-5 top-5 rounded-full bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white">
                 Coming Soon
               </div>
-              
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem' }}>
-                <div style={{ 
-                  width: '5rem', 
-                  height: '5rem', 
-                  backgroundColor: '#dbeafe', 
-                  borderRadius: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '1.5rem',
-                  fontSize: '2rem'
-                }}>
+
+              <div className="mb-6 flex items-center">
+                <div className="mr-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-3xl">
                   🐍
                 </div>
+
                 <div>
-                  <h4 style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0, color: '#6b7280' }}>
+                  <h4 className="m-0 text-2xl font-bold text-gray-500">
                     Python Programming
                   </h4>
-                  <p style={{ color: '#9ca3af', margin: '0.5rem 0 0 0', fontSize: '1.2rem' }}>
+
+                  <p className="mb-0 mt-2 text-base text-gray-400">
                     Data Science & Web Development
                   </p>
                 </div>
               </div>
-              
-              <ul style={{ marginBottom: '2rem', padding: 0, listStyle: 'none' }}>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', color: '#9ca3af', fontSize: '1.2rem' }}>
-                  <span style={{ color: '#d1d5db', marginRight: '1rem', fontSize: '1.4rem' }}>⏱</span>
+
+              <ul className="mb-8 list-none p-0">
+                <li className="mb-3 flex items-center text-base text-gray-400">
+                  <span className="mr-3 text-lg text-gray-300">⏱</span>
                   Python Fundamentals
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', color: '#9ca3af', fontSize: '1.2rem' }}>
-                  <span style={{ color: '#d1d5db', marginRight: '1rem', fontSize: '1.4rem' }}>⏱</span>
+
+                <li className="mb-3 flex items-center text-base text-gray-400">
+                  <span className="mr-3 text-lg text-gray-300">⏱</span>
                   Data Analysis
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', color: '#9ca3af', fontSize: '1.2rem' }}>
-                  <span style={{ color: '#d1d5db', marginRight: '1rem', fontSize: '1.4rem' }}>⏱</span>
+
+                <li className="mb-3 flex items-center text-base text-gray-400">
+                  <span className="mr-3 text-lg text-gray-300">⏱</span>
                   Web Development
                 </li>
               </ul>
-              
-              <button style={{ 
-                width: '100%',
-                backgroundColor: '#e5e7eb', 
-                color: '#9ca3af', 
-                padding: '1rem', 
-                borderRadius: '0.75rem',
-                fontWeight: '600',
-                border: 'none',
-                cursor: 'not-allowed',
-                fontSize: '1.3rem'
-              }}>
+
+              <button
+                className="w-full cursor-not-allowed rounded-xl border-none bg-gray-200 py-3.5 text-base font-semibold text-gray-400"
+                disabled
+              >
                 Coming Soon
               </button>
             </div>
@@ -362,100 +254,67 @@ export default function LandingPage() {
       </section>
 
       {/* About Section */}
-      <section id="about" style={{ 
-        padding: '6rem 1rem', 
-        backgroundColor: '#f9fafb'
-      }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-          <h3 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '2rem', color: '#111827' }}>
+      <section id="about" className="bg-gray-50 px-4 py-20">
+        <div className="mx-auto max-w-3xl text-center">
+          <h3 className="mb-6 text-3xl font-bold text-gray-900">
             About DailyBit
           </h3>
-          <p style={{ 
-            fontSize: '1.4rem', 
-            color: '#4b5563', 
-            marginBottom: '3rem', 
-            lineHeight: '1.7'
-          }}>
-            We're dedicated to making programming education accessible and effective for everyone. 
-            Our platform combines interactive learning, practical exercises, and AI assistance to help 
-            you master programming skills at your own pace.
+
+          <p className="mb-10 text-lg leading-relaxed text-gray-500">
+            We're dedicated to making programming education accessible and
+            effective for everyone. Our platform combines interactive learning,
+            practical exercises, and AI assistance to help you master
+            programming skills at your own pace.
           </p>
-          
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(3, 1fr)', 
-            gap: '3rem', 
-            marginTop: '4rem'
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3.5rem', fontWeight: 'bold', color: '#16a34a', marginBottom: '1rem' }}>
+
+          <div className="mt-12 grid grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="mb-2 text-3xl font-bold text-green-600">
                 50,000+
               </div>
-              <div style={{ color: '#6b7280', fontSize: '1.2rem' }}>Happy Students</div>
+              <div className="text-base text-gray-500">Happy Students</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3.5rem', fontWeight: 'bold', color: '#16a34a', marginBottom: '1rem' }}>
+
+            <div className="text-center">
+              <div className="mb-2 text-3xl font-bold text-green-600">
                 95%
               </div>
-              <div style={{ color: '#6b7280', fontSize: '1.2rem' }}>Success Rate</div>
+              <div className="text-base text-gray-500">Success Rate</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3.5rem', fontWeight: 'bold', color: '#16a34a', marginBottom: '1rem' }}>
+
+            <div className="text-center">
+              <div className="mb-2 text-3xl font-bold text-green-600">
                 4.9★
               </div>
-              <div style={{ color: '#6b7280', fontSize: '1.2rem' }}>Average Rating</div>
+              <div className="text-base text-gray-500">Average Rating</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section style={{ 
-        padding: '6rem 1rem', 
-        backgroundColor: '#ffffff',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <h3 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '2rem', color: '#111827' }}>
+      <section className="bg-white px-4 py-20 text-center">
+        <div className="mx-auto max-w-3xl">
+          <h3 className="mb-6 text-3xl font-bold text-gray-900">
             Ready to Start Learning?
           </h3>
-          <p style={{ 
-            fontSize: '1.4rem', 
-            color: '#4b5563', 
-            marginBottom: '3rem', 
-            maxWidth: '700px',
-            margin: '0 auto 3rem auto'
-          }}>
-            Join thousands of students who are already mastering programming with DailyBit.
+
+          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-gray-500">
+            Join thousands of students who are already mastering programming
+            with DailyBit.
           </p>
-          <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link 
-              href="/signup" 
-              style={{ 
-                backgroundColor: '#16a34a', 
-                color: 'white', 
-                padding: '1rem 2.5rem', 
-                borderRadius: '0.75rem',
-                textDecoration: 'none',
-                fontWeight: '600',
-                fontSize: '1.3rem',
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-              }}
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/signup"
+              className="rounded-xl bg-green-600 px-8 py-3.5 text-base font-semibold text-white no-underline shadow-lg transition-colors hover:bg-green-700"
             >
               Get Started Free
             </Link>
-            <Link 
-              href="/login" 
-              style={{ 
-                border: '2px solid #16a34a', 
-                color: '#16a34a', 
-                padding: '1rem 2.5rem', 
-                borderRadius: '0.75rem',
-                textDecoration: 'none',
-                fontWeight: '600',
-                fontSize: '1.3rem',
-                backgroundColor: 'transparent'
-              }}
+
+            <Link
+              href="/login"
+              className="rounded-xl border-2 border-green-600 bg-transparent px-8 py-3.5 text-base font-semibold text-green-600 no-underline transition-colors hover:bg-green-50"
             >
               Sign In
             </Link>
@@ -464,70 +323,87 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer style={{ 
-        backgroundColor: '#f3f4f6', 
-        borderTop: '1px solid #e5e7eb', 
-        padding: '4rem 1rem'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '3rem'
-          }}>
+      <footer className="border-t border-gray-200 bg-gray-100 px-4 py-14">
+        <div className="mx-auto max-w-6xl">
+          <div
+            className="grid gap-10"
+            style={{
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            }}
+          >
             <div>
-              <h4 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#16a34a', marginBottom: '1.5rem' }}>
+              <h4 className="mb-4 text-xl font-bold text-green-600">
                 DailyBit
               </h4>
-              <p style={{ color: '#4b5563', fontSize: '1.2rem' }}>
+
+              <p className="text-base text-gray-500">
                 Learn programming with interactive courses and AI assistance.
               </p>
             </div>
-            
+
             <div>
-              <h5 style={{ fontWeight: '600', marginBottom: '1.5rem', color: '#111827', fontSize: '1.3rem' }}>Courses</h5>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '0.75rem' }}>
-                  <Link href="/learn/java" style={{ color: '#4b5563', textDecoration: 'none', fontSize: '1.2rem' }}>
+              <h5 className="mb-4 text-lg font-semibold text-gray-900">
+                Courses
+              </h5>
+
+              <ul className="m-0 list-none p-0">
+                <li className="mb-2">
+                  <Link
+                    href="/learn/java"
+                    className="text-base text-gray-500 no-underline transition-colors hover:text-green-600"
+                  >
                     Java Programming
                   </Link>
                 </li>
-                <li style={{ marginBottom: '0.75rem' }}>
-                  <span style={{ color: '#9ca3af', fontSize: '1.2rem' }}>Python (Soon)</span>
+
+                <li className="mb-2">
+                  <span className="text-base text-gray-400">
+                    Python (Soon)
+                  </span>
                 </li>
-                <li style={{ marginBottom: '0.75rem' }}>
-                  <span style={{ color: '#9ca3af', fontSize: '1.2rem' }}>JavaScript (Soon)</span>
+
+                <li className="mb-2">
+                  <span className="text-base text-gray-400">
+                    JavaScript (Soon)
+                  </span>
                 </li>
               </ul>
             </div>
-            
+
             <div>
-              <h5 style={{ fontWeight: '600', marginBottom: '1.5rem', color: '#111827', fontSize: '1.3rem' }}>Features</h5>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '0.75rem', color: '#4b5563', fontSize: '1.2rem' }}>Practice Problems</li>
-                <li style={{ marginBottom: '0.75rem', color: '#4b5563', fontSize: '1.2rem' }}>AI Assistant</li>
-                <li style={{ marginBottom: '0.75rem', color: '#4b5563', fontSize: '1.2rem' }}>Code Editor</li>
+              <h5 className="mb-4 text-lg font-semibold text-gray-900">
+                Features
+              </h5>
+
+              <ul className="m-0 list-none p-0">
+                <li className="mb-2 text-base text-gray-500">
+                  Practice Problems
+                </li>
+
+                <li className="mb-2 text-base text-gray-500">
+                  AI Assistant
+                </li>
+
+                <li className="mb-2 text-base text-gray-500">
+                  Code Editor
+                </li>
               </ul>
             </div>
-            
+
             <div>
-              <h5 style={{ fontWeight: '600', marginBottom: '1.5rem', color: '#111827', fontSize: '1.3rem' }}>Support</h5>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '0.75rem', color: '#4b5563', fontSize: '1.2rem' }}>Help Center</li>
-                <li style={{ marginBottom: '0.75rem', color: '#4b5563', fontSize: '1.2rem' }}>Contact Us</li>
-                <li style={{ marginBottom: '0.75rem', color: '#4b5563', fontSize: '1.2rem' }}>Community</li>
+              <h5 className="mb-4 text-lg font-semibold text-gray-900">
+                Support
+              </h5>
+
+              <ul className="m-0 list-none p-0">
+                <li className="mb-2 text-base text-gray-500">Help Center</li>
+                <li className="mb-2 text-base text-gray-500">Contact Us</li>
+                <li className="mb-2 text-base text-gray-500">Community</li>
               </ul>
             </div>
           </div>
-          
-          <div style={{ 
-            borderTop: '1px solid #e5e7eb', 
-            paddingTop: '2rem', 
-            marginTop: '3rem', 
-            textAlign: 'center',
-            color: '#6b7280',
-            fontSize: '1.1rem'
-          }}>
+
+          <div className="mt-10 border-t border-gray-200 pt-6 text-center text-sm text-gray-500">
             © 2025 DailyBit. All rights reserved.
           </div>
         </div>
@@ -544,32 +420,27 @@ interface FeatureCardProps {
   iconBg: string;
 }
 
-function FeatureCard({ title, description, icon, iconBg }: FeatureCardProps) {
+function FeatureCard({
+  title,
+  description,
+  icon,
+  iconBg,
+}: FeatureCardProps) {
   return (
-    <div style={{ 
-      backgroundColor: '#ffffff', 
-      padding: '2.5rem', 
-      borderRadius: '1rem',
-      border: '1px solid #e5e7eb',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-    }}>
-      <div style={{ 
-        width: '4rem', 
-        height: '4rem', 
-        backgroundColor: iconBg, 
-        borderRadius: '1rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '1.5rem',
-        fontSize: '2rem'
-      }}>
+    <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
+      <div
+        className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl ${iconBg} text-3xl`}
+      >
         {icon}
       </div>
-      <h4 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#111827' }}>
+
+      <h4 className="mb-3 text-xl font-bold text-gray-900">
         {title}
       </h4>
-      <p style={{ color: '#4b5563', fontSize: '1.2rem', lineHeight: '1.6' }}>{description}</p>
+
+      <p className="text-base leading-relaxed text-gray-500">
+        {description}
+      </p>
     </div>
   );
 }
