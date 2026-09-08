@@ -5,17 +5,16 @@ export default async function logOutUser(token: any) {
     const response = await fetch(url, {
         method: "GET",
         cache: 'no-store',
-        credentials: "include",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
         },
     });
 
-    const data = await response.json();
-
-    if(response.status >= 300){
-        throw data['message'];
+    if(response.status >= 300 || response.status < 200){
+        const msg = await response.text();
+        throw msg;
     }
+    const data = await response.text();
     return data;
 }

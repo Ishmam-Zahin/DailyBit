@@ -1,27 +1,25 @@
+import { User } from "@/helper/types";
 import { createSlice } from "@reduxjs/toolkit";
+
+const userStae: User = {
+    userName: null,
+    avatarLink: null,
+    role: null,
+    token: null,
+}
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        userName: null,
-        avatar: null,
-        roles: null,
-        token: null,
-    },
+    initialState: userStae,
     reducers: {
         setUser: (state, action) => {
-            const user = action.payload;
-            state.userName = user['userName'];
-            state.avatar = user['avatar'];
-            state.roles = user['roles']
-            state.token = user['token'];
+            const user: User = action.payload;
+            state.userName = user.userName
+            state.avatarLink = user.avatarLink
+            state.role = user.role
+            state.token = user.token
         },
-        resetUser: (state) =>{
-            state.userName = null;
-            state.avatar = null;
-            state.roles = null;
-            state.token = null;
-        }
+        resetUser: (state) => userStae,
     }
 });
 

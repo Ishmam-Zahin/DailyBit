@@ -59,3 +59,10 @@ export type Embedding = {
   created_at: string
   updated_at: string
 }
+
+export type User = {
+  userName: string | null
+  avatarLink: string | null
+  role: 'USER' | 'ADMIN' | 'STAFF' | null
+  token: string | null
+}

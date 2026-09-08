@@ -1,15 +1,12 @@
 import JavaNav from '@/components/JavaNav';
-import styles from '@/styles/learn.module.scss'
-import Link from 'next/link';
 
-export default function layout(
+export default function Layout(
     {
-        children
-    }:
-    Readonly<{
-        children: React.ReactNode
+        children,
+    }: Readonly<{
+        children: React.ReactNode;
     }>
-){
+) {
     return (
         <>
             <JavaNav />

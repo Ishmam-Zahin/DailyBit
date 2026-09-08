@@ -1,65 +1,41 @@
-'use client'
+'use client';
 
-import styles from '@/styles/learn.module.scss'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export default function JavaNav(){
-    const path = usePathname()
+export default function JavaNav() {
+    const path = usePathname();
+
+    const links = [
+        { href: '/learn/java', label: 'Java Intro' },
+        { href: '/learn/java/chapter-1', label: 'Chapter 01' },
+        { href: '/learn/java/chapter-2', label: 'Chapter 02' },
+        { href: '/learn/java/chapter-3', label: 'Chapter 03' },
+        { href: '/learn/java/chapter-4', label: 'Chapter 04' },
+        { href: '/learn/java/chapter-5', label: 'Chapter 05' },
+    ];
+
     return (
-        <nav
-        className={styles.sectionNav}
-        >
-            <h2>BASIC</h2>
+        <nav className="h-full w-[180px] shrink-0 overflow-y-auto bg-gray-200 pt-4 text-base">
+            <h2 className="px-4 py-4 text-left text-xl font-medium">
+                BASIC
+            </h2>
+
             <ul>
-                <li>
-                    <Link
-                    href='/learn/java'
-                    className={`${styles.link} ${path === '/learn/java' ? styles.active : ''}`}
-                    >
-                        Java Intro
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                    href='/learn/java/chapter-1'
-                    className={`${styles.link} ${path === '/learn/java/chapter-1' ? styles.active : ''}`}
-                    >
-                        Chapter 01
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                    href='/learn/java/chapter-2'
-                    className={`${styles.link} ${path === '/learn/java/chapter-2' ? styles.active : ''}`}
-                    >
-                        Chapter 02
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                    href='/learn/java/chapter-3'
-                    className={`${styles.link} ${path === '/learn/java/chapter-3' ? styles.active : ''}`}
-                    >
-                        Chapter 03
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                    href='/learn/java'
-                    className={`${styles.link} ${path === '/learn/java/chapter-4' ? styles.active : ''}`}
-                    >
-                        Chapter 04
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                    href='/learn/java'
-                    className={`${styles.link} ${path === '/learn/java/chapter-5' ? styles.active : ''}`}
-                    >
-                        Chapter 05
-                    </Link>
-                </li>
+                {links.map((link) => (
+                    <li key={link.href}>
+                        <Link
+                            href={link.href}
+                            className={`block w-full px-4 py-2 transition-colors duration-100 hover:bg-gray-700 hover:text-white ${
+                                path === link.href
+                                    ? 'bg-emerald-500 text-white'
+                                    : ''
+                            }`}
+                        >
+                            {link.label}
+                        </Link>
+                    </li>
+                ))}
             </ul>
         </nav>
     );

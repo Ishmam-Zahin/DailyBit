@@ -1,11 +1,8 @@
+// Quiz.tsx
 'use client'
 
-import fetchQuizQuestions from '@/actions/fetchQuizQuestions';
 import { QuizQuestion, QuizRequest } from '@/helper/types';
-import styles from '@/styles/quiz/quiz.module.scss'
-import { useMutation } from '@tanstack/react-query';
-import { use, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useState } from 'react';
 
 export default function Quiz(
     {
@@ -25,17 +22,7 @@ export default function Quiz(
     const [revealAnswer, setRevealAnswer] = useState(false);
     const [score, setScore] = useState(0);
     const [showResult, setShowResult] = useState(false);
-    const[showExplanation, setShowExplanation] = useState(false);
-    
-    const mutation = useMutation({
-        mutationFn: fetchQuizQuestions,
-        onSuccess: (data)=>{
-            setQuestions(data['questions']);
-        },
-        onError: (err)=>{
-            console.log(err);
-        }
-    })
+    const [showExplanation, setShowExplanation] = useState(false);
 
     const resetQuiz = () => {
         setSelected(null);
@@ -48,18 +35,18 @@ export default function Quiz(
     }
 
     return (
-        <div className={styles.quizContainer}>
+        <div className="text-[1.6rem] w-full min-h-[30rem] relative border border-[var(--main-color-primary-dark)] p-4">
             {/* Show Explanation Modal */}
             {showExplanation && (
-                <div className={styles.startContainer}>
-                    <h3 style={{ color: '#1f2937', fontSize: '2rem', marginBottom: '1rem' }}>
+                <div className="bg-[rgba(128,128,128,0.728)] absolute w-full h-full flex justify-center items-center">
+                    <h3 className="text-[#1f2937] text-[2rem] mb-4">
                         Explanation
                     </h3>
-                    <p style={{ color: '#374151', fontSize: '1.6rem', lineHeight: '1.6', textAlign: 'center' }}>
+                    <p className="text-[#374151] text-[1.6rem] leading-relaxed text-center">
                         {questions[currentQuestion].explanation}
                     </p>
                     <button
-                        className={`${styles.btn} ${styles.cancel}`}
+                        className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer bg-gray-400"
                         onClick={() => setShowExplanation(false)}
                     >
                         Close
@@ -69,23 +56,21 @@ export default function Quiz(
 
             {/* Start Quiz Screen */}
             {questions.length === 0 && (
-                <div className={styles.startContainer}>
+                <div className="bg-[rgba(128,128,128,0.728)] absolute w-full h-full flex justify-center items-center">
                     <button
-                        className={styles.btn}
-                        onClick={() => mutation.mutate({json})}
-                        disabled={mutation.isPending}
+                        className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
                     >
-                        {mutation.isPending ? 'Loading...' : 'Start Quiz'}
+                        Start Quiz
                     </button>
                 </div>
             )}
 
             {/* Results Screen */}
             {showResult && (
-                <div className={styles.startContainer}>
+                <div className="bg-[rgba(128,128,128,0.728)] absolute w-full h-full flex justify-center items-center">
                     <p>Final Score: {score} / {questions.length}</p>
                     <button
-                        className={`${styles.btn} ${styles.playAgain}`}
+                        className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
                         onClick={resetQuiz}
                     >
                         Play Again
@@ -96,19 +81,24 @@ export default function Quiz(
             {/* Quiz Questions */}
             {(questions.length > 0 && !showResult) && (
                 <>
-                    <h2>{questions[currentQuestion].question}</h2>
-                    
-                    <div className={styles.optionsContainer}>
+                    <h2 className="border border-[var(--main-color-primary-dark)] text-center px-8 py-4 text-[2rem] rounded-[2rem]">
+                        {questions[currentQuestion].question}
+                    </h2>
+
+                    <div className="grid grid-cols-2 grid-rows-2 mt-8 gap-8">
                         {questions[currentQuestion].options.map((option, index) => {
                             const letters = ['A', 'B', 'C', 'D'];
+                            const isSelected = selected === option;
+                            const isCorrect = revealAnswer && option[0] === questions[currentQuestion].correct_answer;
+                            const isWrong = revealAnswer && isSelected && option[0] !== questions[currentQuestion].correct_answer;
                             return (
                                 <button
                                     key={option}
                                     data-letter={letters[index]}
-                                    className={`${styles.optionBtn} 
-                                        ${selected === option ? styles.selected : ''} 
-                                        ${(revealAnswer && option[0] === questions[currentQuestion].correct_answer) ? styles.correct : ''} 
-                                        ${(revealAnswer && selected === option && option[0] !== questions[currentQuestion].correct_answer) ? styles.wa : ''}`}
+                                    className={`w-full h-full border border-[var(--main-color-primary-light)] px-8 py-4 cursor-pointer
+                                        ${isSelected ? 'bg-[var(--main-color-gray-1)]' : ''}
+                                        ${isCorrect ? 'bg-[var(--main-color-primary-light)]' : ''}
+                                        ${isWrong ? 'bg-red-600' : ''}`}
                                     onClick={() => {
                                         if(revealAnswer) return;
                                         setSelected(state => {
@@ -124,11 +114,11 @@ export default function Quiz(
                     </div>
 
                     {/* Action Buttons Container */}
-                    <div className={styles.buttonContainer}>
+                    <div className="flex gap-4 mt-4">
                         {/* Show explanation button - only show after answer is revealed */}
                         {revealAnswer && (
                             <button
-                                className={`${styles.btn} ${styles.showExplanation}`}
+                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
                                 onClick={() => setShowExplanation(true)}
                             >
                                 Show Explanation
@@ -138,7 +128,7 @@ export default function Quiz(
                         {/* Evaluate button - only show when answer is selected but not revealed */}
                         {selected && !revealAnswer && (
                             <button
-                                className={styles.btn}
+                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
                                 onClick={() => {
                                     if(selected[0] === questions[currentQuestion].correct_answer){
                                         setScore(state => state + 1)
@@ -153,7 +143,7 @@ export default function Quiz(
                         {/* Next button - only show after answer is revealed and not last question */}
                         {revealAnswer && ((currentQuestion + 1) < questions.length) && (
                             <button
-                                className={styles.btn}
+                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
                                 onClick={() => {
                                     setSelected(null);
                                     setRevealAnswer(false);
@@ -167,7 +157,7 @@ export default function Quiz(
                         {/* Finish button - only show after answer is revealed and is last question */}
                         {revealAnswer && ((currentQuestion + 1) === questions.length) && (
                             <button
-                                className={styles.btn}
+                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
                                 onClick={() => {
                                     setShowResult(true);
                                 }}

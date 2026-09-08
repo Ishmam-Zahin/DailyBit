@@ -1,35 +1,52 @@
 import logOutUser from '@/actions/logOutUser';
 import { useAppDispatch, useAppSelector } from '@/redux/ReduxStore';
 import { resetUser } from '@/redux/userSlice';
-import styles from '@/styles/learn.module.scss'
 import { useMutation } from '@tanstack/react-query';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
 
-export default function LogOutBtn(){
-    const user = useAppSelector(state => state.user);
+export default function LogOutBtn() {
+    const user = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
+
     const mutation = useMutation({
         mutationFn: logOutUser,
-        onSuccess: (data) => {
+
+        onSuccess: () => {
             dispatch(resetUser());
-            toast.success('logout successfull');
+            toast.success('Logout successful');
         },
-        onError: (err: any) =>{
-            toast.error(err);
-        }
-    })
+
+        onError: (err: Error) => {
+            toast.error(err.message || 'Logout failed');
+        },
+    });
+
     return (
         <button
-        className={styles.btn}
-        onClick={() => {
-            mutation.mutate(user.token);
-        }}
-        disabled={mutation.isPending}
+            type="button"
+            onClick={() => {
+                mutation.mutate(user.token);
+            }}
+            disabled={mutation.isPending}
+            className="
+                flex
+                min-w-fit
+                cursor-pointer
+                items-center
+                justify-center
+                rounded-lg
+                bg-[var(--main-color-primary-dark)]
+                px-4
+                py-2
+                text-sm
+                text-white
+                transition-colors
+                duration-100
+                hover:bg-[var(--main-color-dark-1)]
+                disabled:cursor-not-allowed
+                disabled:opacity-60
+            "
         >
-            {/* <svg className={styles.icon}>
-                <use href="/sprite.svg#icon-user" />
-            </svg> */}
             {mutation.isPending ? 'Loading...' : 'Log Out'}
         </button>
     );

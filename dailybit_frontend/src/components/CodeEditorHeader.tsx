@@ -1,7 +1,5 @@
-import styles from '@/styles/learn.module.scss'
-import { useMutation } from '@tanstack/react-query';
+// CodeEditorHeader.tsx
 import { Dispatch, SetStateAction } from 'react';
-import toast from 'react-hot-toast';
 
 export default function CodeEditorHeader(
     {
@@ -10,8 +8,6 @@ export default function CodeEditorHeader(
         setProblemId,
         language,
         setLanguage,
-        handleSubmit,
-        setOutput,
     }:
     {
         problemIds: string[],
@@ -19,30 +15,17 @@ export default function CodeEditorHeader(
         setProblemId: Dispatch<SetStateAction<string>>,
         language: string,
         setLanguage: Dispatch<SetStateAction<string>>,
-        handleSubmit: () => Promise<any>,
-        setOutput: Dispatch<SetStateAction<string>>,
     }
 ){
-    const mutation = useMutation({
-        mutationFn: handleSubmit,
-        onSuccess: (data) => {
-            setOutput(data);
-            toast.success('ACCEPTED')
-        },
-        onError: (err: any) => {
-            setOutput(err);
-        }
-    })
     return (
-        <div
-        className={styles.codeEditorHeader}
-        >
+        <div className="bg-[var(--main-color-gray-1)] px-4 py-2 text-[1.4rem] flex flex-row justify-between items-center">
             <div>
                 <label htmlFor="problemId">Problem ID: </label>
                 <select
                 name="problemId"
                 id="problemId"
                 defaultValue={problemId}
+                className="border-2 border-black px-2 py-1 rounded-lg cursor-pointer ml-2 mr-4 focus:outline-none active:outline-none"
                 onChange={(e) => setProblemId(e.target.value)}
                 >
                     <option value="none">None</option>
@@ -55,6 +38,7 @@ export default function CodeEditorHeader(
                 name="language"
                 id="language"
                 defaultValue={language}
+                className="border-2 border-black px-2 py-1 rounded-lg cursor-pointer ml-2 mr-4 focus:outline-none active:outline-none"
                 onChange={(e) => setLanguage(e.target.value)}
                 >
                     <option value="java">JAVA</option>
@@ -65,9 +49,7 @@ export default function CodeEditorHeader(
             </div>
             <div>
                 <button
-                className={`${styles.btn} ${styles.submitBtn} ${mutation.isPending && styles.disabled}`}
-                disabled={mutation.isPending}
-                onClick={() => mutation.mutate()}
+                className="bg-[var(--main-color-primary-dark)] text-white px-4 py-2 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer m-0"
                 >
                     {problemId === 'none' ? 'RUN' : 'SUBMIT'}
                 </button>

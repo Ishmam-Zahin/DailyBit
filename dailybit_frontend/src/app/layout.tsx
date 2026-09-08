@@ -2,6 +2,7 @@ import '@/globals.css';
 import Providers from '@/components/Providers';
 import { cookies } from 'next/headers';
 import domain from '@/helper/backendDomain';
+import { User } from '@/helper/types';
 
 
 export default async function RootLayout({
@@ -11,15 +12,15 @@ export default async function RootLayout({
 }>) {
   const cooki = await cookies();
   const token = cooki.get("jwt_token")?.value ?? '';
-  var storeInitials = {
+  var storeInitials: User = {
     userName: null,
-    avatar: null,
+    avatarLink: null,
+    role: null,
     token: null,
   }
   try{
     const response = await fetch(`${domain}/auth/userInfo`, {
       method: "GET",
-      credentials: "include",
       headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
@@ -32,6 +33,7 @@ export default async function RootLayout({
   catch(err){
     console.log(err);
   }
+  
   return (
     <html lang="en">
       <body>

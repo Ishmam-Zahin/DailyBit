@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from '@/redux/userSlice'
 import { useDispatch, useSelector } from 'react-redux';
+import { User } from '@/helper/types';
 
-export const reduxStore = (initialState: any)=>{
+export const reduxStore = (initialState: User)=>{
     return configureStore({
         reducer: {
             user: userReducer

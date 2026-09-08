@@ -3,9 +3,10 @@
 import { useAppSelector } from '@/redux/ReduxStore';
 import Link from 'next/link';
 import LogOutBtn from './LogOutBtn';
+import { User } from '@/helper/types';
 
 export default function MainHeader() {
-    const user = useAppSelector((state) => state.user);
+    const user: User = useAppSelector((state) => state.user);
 
     return (
         <header className="flex h-24 items-center justify-between px-4 text-base">
@@ -150,7 +151,7 @@ export default function MainHeader() {
                 {user.token && (
                     <div className="flex w-fit flex-row items-center justify-center gap-4">
                         <img
-                            src={user.avatar ?? ''}
+                            src={user.avatarLink ?? ''}
                             alt="profile image"
                             className="h-12 w-12 rounded-full object-cover"
                         />
