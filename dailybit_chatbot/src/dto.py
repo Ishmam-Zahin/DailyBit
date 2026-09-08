@@ -37,3 +37,15 @@ class QuizQuestion(BaseModel):
 
 class QuizResponse(BaseModel):
     questions: list[QuizQuestion] = Field(min_length=5, max_length=5)
+
+
+
+class ConversationDTO(BaseModel):
+    id: int = Field(gt = 0)
+    user_id: int = Field(gt = 0)
+    course_id: int = Field(gt = 0)
+    chapter_id: int = Field(gt = 0)
+    user_query: str = Field(min_length = 1)
+    llm_response: str = Field(min_length = 1)
+
+    model_config = ConfigDict(from_attributes = True)

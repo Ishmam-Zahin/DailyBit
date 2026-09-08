@@ -23,6 +23,8 @@ export default function layout(
         defaultValue={defaultValue}
         problemIds={problemIds}
         aiTitle='Java Fundamentals'
+        courseId={12}
+        chapterId={23}
         />
     )
 }

@@ -17,6 +17,10 @@ public class MyUserDetails implements UserDetails {
         this.user = user;
     }
 
+    public Long getUserId(){
+        return this.user.getId();
+    }
+
     public Role getRole(){
         return this.user.getRole();
     }

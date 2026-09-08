@@ -15,11 +15,15 @@ export default function PageLayout(
         defaultValue,
         problemIds,
         aiTitle,
+        courseId,
+        chapterId,
     }: Readonly<{
         children: React.ReactNode;
         defaultValue: string;
         problemIds: string[];
         aiTitle: string;
+        courseId: number
+        chapterId: number
     }>
 ) {
     const [showWindow, setShowWindow] = useState(0);
@@ -186,7 +190,7 @@ export default function PageLayout(
                             minSize={20}
                             className="h-full min-w-0"
                         >
-                            <AiChatBot title={aiTitle} />
+                            <AiChatBot title={aiTitle} courseId={courseId} chapterId={chapterId}/>
                         </Panel>
                     </>
                 )}

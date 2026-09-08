@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponseDTO {
+    private Long id = null;
     private String userName = null;
     private String avatarLink = null;
     private Role role = null;

@@ -83,6 +83,7 @@ public class UserController {
                                                             .build();
             response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
             UserResponseDTO user = new UserResponseDTO();
+            user.setId(userDetails.getUserId());
             user.setUserName(userDetails.getUsername());
             user.setAvatarLink(userDetails.getAvatarLink());
             user.setRole(userDetails.getRole());
@@ -118,6 +119,7 @@ public class UserController {
             return ResponseEntity.ok(user);
         }
         token = token.substring(7);
+        user.setId(myUserDetails.getUserId());
         user.setUserName(myUserDetails.getUsername());
         user.setAvatarLink(myUserDetails.getAvatarLink());
         user.setRole(myUserDetails.getRole());

@@ -1,8 +1,8 @@
 export type AIQuery = {
-    query: string,
-    context: string,
-    n_results: 2,
-    similarity_threshold: 0.5,
+    user_id: number
+    course_id: number
+    chapter_id: number
+    query: string
 }
 
 export type QuizRequest = {
@@ -61,8 +61,18 @@ export type Embedding = {
 }
 
 export type User = {
+  id: number | null
   userName: string | null
   avatarLink: string | null
   role: 'USER' | 'ADMIN' | 'STAFF' | null
   token: string | null
+}
+
+export type Conversation = {
+  id: number
+  user_id: number
+  course_id: number
+  chapter_id: number
+  user_query: string
+  llm_response: string
 }

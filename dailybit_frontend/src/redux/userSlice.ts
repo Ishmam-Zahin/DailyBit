@@ -2,6 +2,7 @@ import { User } from "@/helper/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const userStae: User = {
+    id: null,
     userName: null,
     avatarLink: null,
     role: null,
@@ -14,6 +15,7 @@ export const userSlice = createSlice({
     reducers: {
         setUser: (state, action) => {
             const user: User = action.payload;
+            state.id = user.id
             state.userName = user.userName
             state.avatarLink = user.avatarLink
             state.role = user.role

@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import create_engine, Select
+from sqlalchemy import create_engine, Select, delete
 from sqlalchemy.orm import sessionmaker, Session
 from src.models import Base, Chunk, Conversation
-from src.dto import ChunkCreateDTO, ChunkDTO, QueryDTO, QuizResponse
+from src.dto import ChunkCreateDTO, ChunkDTO, QueryDTO, QuizResponse, ConversationDTO
 from src.rag_pipeline import RAGPipeLine
 from openai import RateLimitError
 import os
@@ -101,13 +101,6 @@ def get_embeddings(
         ChunkDTO.model_validate(chunk)
         for chunk in chunks
     ]
-
-from fastapi import HTTPException, Query
-from sqlalchemy import delete
-
-
-from fastapi import HTTPException, Query
-from sqlalchemy import delete
 
 
 @app.delete("/embedding")
@@ -297,6 +290,9 @@ def ask_query(query: QueryDTO, db: Session = Depends(get_db)):
 
         db.add(new_conversation)
         db.commit()
+        db.refresh(new_conversation)
+
+        return ConversationDTO.model_validate(new_conversation)
 
     except Exception:
         db.rollback()
@@ -306,9 +302,56 @@ def ask_query(query: QueryDTO, db: Session = Depends(get_db)):
             detail="Failed to save conversation."
         )
 
-    return {
-        "response": llm_response
-    }
+@app.get('/conversations')
+def get_conversations(user_id: int, course_id: int, chapter_id: int, db: Session = Depends(get_db)):
+    stm = Select(Conversation).where(
+        Conversation.user_id == user_id,
+        Conversation.course_id == course_id,
+        Conversation.chapter_id == chapter_id,
+    ).order_by(
+        Conversation.id.desc()
+    )
+
+    try:
+        result = db.execute(stm)
+        conversations: list[Conversation] = result.scalars().all()
+
+        return [
+            ConversationDTO.model_validate(conversation)
+            for conversation in conversations
+        ]
+    except:
+        raise HTTPException(
+            status_code = 500,
+            detail = 'internal server error'
+        )
+
+
+@app.delete('/conversations')
+def delete_conversations(user_id: int, course_id: int, chapter_id: int, db: Session = Depends(get_db)):
+    stm = delete(Conversation).where(
+        Conversation.user_id == user_id,
+        Conversation.course_id == course_id,
+        Conversation.chapter_id == chapter_id,
+    )
+
+    try:
+        result = db.execute(stm)
+
+        if result.rowcount == 0:
+            raise HTTPException(
+                status_code=404,
+                detail="No matching chunks found."
+            )
+
+        db.commit()
+
+        return 'deleted'
+    except:
+        raise HTTPException(
+            status_code = 500,
+            detail = 'internal server error'
+        )
 
 
 @app.get("/quiz", response_model=QuizResponse)
