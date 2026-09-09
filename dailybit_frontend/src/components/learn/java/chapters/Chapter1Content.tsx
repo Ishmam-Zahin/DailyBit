@@ -551,7 +551,7 @@ public class InputExample {
 
             {/* Quiz */}
             <div>
-                <Quiz />
+                <Quiz courseId={12} chapterId={23} />
             </div>
 
             {/* Try It Yourself */}

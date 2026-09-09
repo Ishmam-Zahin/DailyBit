@@ -5,21 +5,8 @@ export type AIQuery = {
     query: string
 }
 
-export type QuizRequest = {
-    topic: string,
-    difficulty: string,
-    num_questions: 5,
-}
-
 export type CourseCreateDTO = {
     name: string
-}
-
-export type QuizQuestion = {
-    question: string,
-    options: string[],
-    correct_answer: string,
-    explanation: string
 }
 
 export type ChapterCreateDTO = {
@@ -75,4 +62,11 @@ export type Conversation = {
   chapter_id: number
   user_query: string
   llm_response: string
+}
+
+export type QuizResponse = {
+  question: string
+  options: string[]
+  correct_answer: string
+  explanation: string
 }

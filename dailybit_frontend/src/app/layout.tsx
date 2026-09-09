@@ -13,6 +13,7 @@ export default async function RootLayout({
   const cooki = await cookies();
   const token = cooki.get("jwt_token")?.value ?? '';
   var storeInitials: User = {
+    id: null,
     userName: null,
     avatarLink: null,
     role: null,

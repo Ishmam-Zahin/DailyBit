@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Select, delete
 from sqlalchemy.orm import sessionmaker, Session
 from src.models import Base, Chunk, Conversation
-from src.dto import ChunkCreateDTO, ChunkDTO, QueryDTO, QuizResponse, ConversationDTO
+from src.dto import ChunkCreateDTO, ChunkDTO, QueryDTO, ConversationDTO, QuizQuestion
 from src.rag_pipeline import RAGPipeLine
 from openai import RateLimitError
 import os
@@ -354,12 +354,18 @@ def delete_conversations(user_id: int, course_id: int, chapter_id: int, db: Sess
         )
 
 
-@app.get("/quiz", response_model=QuizResponse)
+@app.get("/quiz", response_model= list[QuizQuestion])
 def get_quiz(
     course_id: int,
     chapter_id: int,
+    level: int = 1,
     db: Session = Depends(get_db)
 ):
+    if level < 1 or level > 3:
+        raise HTTPException(
+            status_code = 502,
+            detail = 'invalid level'
+        )
     statement = (
         Select(Chunk)
         .where(
@@ -386,7 +392,8 @@ def get_quiz(
 
     try:
         quiz = rag_pipeline.generate_quiz(
-            context=context
+            context=context,
+            level = level,
         )
 
         return quiz

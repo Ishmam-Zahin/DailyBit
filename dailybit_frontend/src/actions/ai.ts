@@ -1,5 +1,5 @@
 import { aiDomain } from "@/helper/backendAIDomain";
-import { AIQuery, Conversation } from "@/helper/types";
+import { AIQuery, Conversation, QuizResponse } from "@/helper/types";
 
 export async function getConversations(
   userId: number,
@@ -58,4 +58,25 @@ export async function deleteConversations(
     throw 'server error';
   }
   return 'deleted';
+}
+
+export async function getQuiz(
+  courseId: number,
+  chapterId: number,
+  level: number
+): Promise<QuizResponse[]> {
+  const url = `${aiDomain}/quiz?course_id=${courseId}&chapter_id=${chapterId}&level=${level}`;
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+  const response = await fetch(url, {
+    method: 'GET',
+    cache: 'no-store',
+    headers: headers,
+  });
+  if (response.status >= 300 || response.status < 200) {
+    throw 'server error';
+  }
+  const data = await response.json();
+  return data as QuizResponse[];
 }

@@ -1,3 +1,4 @@
+// /app/learn/java/page.tsx
 import IntroContent from '@/components/learn/java/chapters/IntroContent';
 
 export default function Page() {

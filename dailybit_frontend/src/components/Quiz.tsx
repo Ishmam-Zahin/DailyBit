@@ -1,172 +1,286 @@
 // Quiz.tsx
 'use client'
 
-import { QuizQuestion, QuizRequest } from '@/helper/types';
+import { QuizResponse } from '@/helper/types';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
+import { getQuiz } from '@/actions/ai'; // adjust path
+import toast from 'react-hot-toast';
+import { Check, X, Loader2 } from 'lucide-react';
+
+type QuizStage = 'start' | 'level' | 'quiz' | 'result';
+
+const LETTERS = ['A', 'B', 'C', 'D'];
 
 export default function Quiz(
     {
-        json = {
-            topic: 'java fundamentals',
-            difficulty: 'intermediate',
-            num_questions: 5,
-        },
+        courseId,
+        chapterId,
     }:
     {
-        json?: QuizRequest
+        courseId: number,
+        chapterId: number,
     }
 ){
-    const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+    const [stage, setStage] = useState<QuizStage>('start');
+    const [questions, setQuestions] = useState<QuizResponse[]>([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [selected, setSelected] = useState<string | null>(null)
+    const [selected, setSelected] = useState<string | null>(null);
     const [revealAnswer, setRevealAnswer] = useState(false);
     const [score, setScore] = useState(0);
-    const [showResult, setShowResult] = useState(false);
     const [showExplanation, setShowExplanation] = useState(false);
+
+    const {
+        mutate: fetchQuiz,
+        isPending: isLoading,
+    } = useMutation({
+        mutationFn: (level: number) => getQuiz(courseId, chapterId, level),
+        onSuccess: (data) => {
+            setQuestions(data);
+            setStage('quiz');
+        },
+        onError: () => {
+            toast.error('Failed to load quiz. Please try again.');
+            setStage('start');
+        },
+    });
 
     const resetQuiz = () => {
         setSelected(null);
         setRevealAnswer(false);
         setQuestions([]);
         setScore(0);
-        setShowResult(false);
         setCurrentQuestion(0);
         setShowExplanation(false);
-    }
+    };
+
+    const handleExit = () => {
+        resetQuiz();
+        setStage('start');
+    };
+
+    const handleSelectLevel = (level: number) => {
+        setStage('quiz');
+        fetchQuiz(level);
+    };
+
+    const handlePlayAgain = () => {
+        resetQuiz();
+        setStage('level');
+    };
+
+    const current = questions[currentQuestion];
 
     return (
-        <div className="text-[1.6rem] w-full min-h-[30rem] relative border border-[var(--main-color-primary-dark)] p-4">
-            {/* Show Explanation Modal */}
-            {showExplanation && (
-                <div className="bg-[rgba(128,128,128,0.728)] absolute w-full h-full flex justify-center items-center">
-                    <h3 className="text-[#1f2937] text-[2rem] mb-4">
-                        Explanation
-                    </h3>
-                    <p className="text-[#374151] text-[1.6rem] leading-relaxed text-center">
-                        {questions[currentQuestion].explanation}
-                    </p>
-                    <button
-                        className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer bg-gray-400"
-                        onClick={() => setShowExplanation(false)}
-                    >
-                        Close
-                    </button>
+        <div className="relative w-full min-h-[28rem] rounded-2xl border border-white/10 bg-[var(--main-color-dark-1)] text-white shadow-lg overflow-hidden">
+
+            {/* Explanation Modal */}
+            {showExplanation && current && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/70 px-6 backdrop-blur-sm">
+                    <div className="w-full max-w-md rounded-xl bg-[var(--main-color-dark-1)] border border-white/10 p-6 shadow-xl">
+                        <h3 className="text-base font-semibold text-white mb-3">
+                            Explanation
+                        </h3>
+                        <p className="text-sm leading-relaxed text-white/70">
+                            {current.explanation}
+                        </p>
+                        <button
+                            className="mt-5 w-full cursor-pointer rounded-lg bg-[var(--main-color-primary-dark)] px-4 py-2 text-sm text-white transition-colors hover:bg-[var(--main-color-primary-light)]"
+                            onClick={() => setShowExplanation(false)}
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             )}
 
-            {/* Start Quiz Screen */}
-            {questions.length === 0 && (
-                <div className="bg-[rgba(128,128,128,0.728)] absolute w-full h-full flex justify-center items-center">
+            {/* Start Screen */}
+            {stage === 'start' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                    <h3 className="text-lg font-semibold text-white">Ready to test yourself?</h3>
                     <button
-                        className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
+                        className="cursor-pointer rounded-lg bg-[var(--main-color-primary-dark)] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[var(--main-color-primary-light)]"
+                        onClick={() => setStage('level')}
                     >
                         Start Quiz
                     </button>
                 </div>
             )}
 
+            {/* Difficulty Level Screen */}
+            {stage === 'level' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
+                    <h3 className="text-lg font-semibold text-white">Select Difficulty</h3>
+                    <div className="flex gap-3">
+                        <button
+                            className="cursor-pointer rounded-lg border border-white/10 bg-white/5 px-5 py-2 text-sm text-white transition-colors hover:bg-[var(--main-color-primary-dark)]"
+                            onClick={() => handleSelectLevel(1)}
+                        >
+                            Easy
+                        </button>
+                        <button
+                            className="cursor-pointer rounded-lg border border-white/10 bg-white/5 px-5 py-2 text-sm text-white transition-colors hover:bg-[var(--main-color-primary-dark)]"
+                            onClick={() => handleSelectLevel(2)}
+                        >
+                            Medium
+                        </button>
+                        <button
+                            className="cursor-pointer rounded-lg border border-white/10 bg-white/5 px-5 py-2 text-sm text-white transition-colors hover:bg-[var(--main-color-primary-dark)]"
+                            onClick={() => handleSelectLevel(3)}
+                        >
+                            Hard
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Loading Screen */}
+            {stage === 'quiz' && isLoading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <Loader2 className="animate-spin text-[var(--main-color-primary-light)]" size={28} />
+                    <p className="text-sm text-white/70">Fetching quiz...</p>
+                </div>
+            )}
+
             {/* Results Screen */}
-            {showResult && (
-                <div className="bg-[rgba(128,128,128,0.728)] absolute w-full h-full flex justify-center items-center">
-                    <p>Final Score: {score} / {questions.length}</p>
-                    <button
-                        className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
-                        onClick={resetQuiz}
-                    >
-                        Play Again
-                    </button>
+            {stage === 'result' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
+                    <div className="text-center">
+                        <p className="text-sm text-white/50">Your Score</p>
+                        <p className="text-3xl font-bold text-white mt-1">
+                            {score} <span className="text-white/40 text-xl">/ {questions.length}</span>
+                        </p>
+                    </div>
+                    <div className="flex gap-3">
+                        <button
+                            className="cursor-pointer rounded-lg bg-[var(--main-color-primary-dark)] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--main-color-primary-light)]"
+                            onClick={handlePlayAgain}
+                        >
+                            Play Again
+                        </button>
+                        <button
+                            className="cursor-pointer rounded-lg border border-white/10 px-5 py-2 text-sm text-white/70 transition-colors hover:bg-white/10"
+                            onClick={handleExit}
+                        >
+                            Exit
+                        </button>
+                    </div>
                 </div>
             )}
 
             {/* Quiz Questions */}
-            {(questions.length > 0 && !showResult) && (
-                <>
-                    <h2 className="border border-[var(--main-color-primary-dark)] text-center px-8 py-4 text-[2rem] rounded-[2rem]">
-                        {questions[currentQuestion].question}
+            {stage === 'quiz' && !isLoading && current && (
+                <div className="p-5">
+                    {/* Top bar */}
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-medium text-white/50">
+                            Question {currentQuestion + 1} of {questions.length}
+                        </span>
+                        <button
+                            className="cursor-pointer rounded-md px-2 py-1 text-xs text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                            onClick={handleExit}
+                        >
+                            Exit
+                        </button>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="h-1 w-full rounded-full bg-white/10 mb-5 overflow-hidden">
+                        <div
+                            className="h-full rounded-full bg-[var(--main-color-primary-light)] transition-all"
+                            style={{ width: `${((currentQuestion + (revealAnswer ? 1 : 0)) / questions.length) * 100}%` }}
+                        />
+                    </div>
+
+                    {/* Question */}
+                    <h2 className="text-base font-medium leading-snug text-white mb-5">
+                        {current.question}
                     </h2>
 
-                    <div className="grid grid-cols-2 grid-rows-2 mt-8 gap-8">
-                        {questions[currentQuestion].options.map((option, index) => {
-                            const letters = ['A', 'B', 'C', 'D'];
+                    {/* Options */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {current.options.map((option, index) => {
                             const isSelected = selected === option;
-                            const isCorrect = revealAnswer && option[0] === questions[currentQuestion].correct_answer;
-                            const isWrong = revealAnswer && isSelected && option[0] !== questions[currentQuestion].correct_answer;
+                            const isCorrectOption = option === current.correct_answer;
+                            const isCorrect = revealAnswer && isCorrectOption;
+                            const isWrong = revealAnswer && isSelected && !isCorrectOption;
+
                             return (
                                 <button
                                     key={option}
-                                    data-letter={letters[index]}
-                                    className={`w-full h-full border border-[var(--main-color-primary-light)] px-8 py-4 cursor-pointer
-                                        ${isSelected ? 'bg-[var(--main-color-gray-1)]' : ''}
-                                        ${isCorrect ? 'bg-[var(--main-color-primary-light)]' : ''}
-                                        ${isWrong ? 'bg-red-600' : ''}`}
+                                    className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm cursor-pointer transition-colors
+                                        ${isCorrect ? 'border-emerald-500 bg-emerald-500/15 text-white' : ''}
+                                        ${isWrong ? 'border-red-500 bg-red-500/15 text-white' : ''}
+                                        ${!revealAnswer && isSelected ? 'border-[var(--main-color-primary-light)] bg-white/10 text-white' : ''}
+                                        ${!revealAnswer && !isSelected ? 'border-white/10 bg-white/5 text-white/80 hover:bg-white/10' : ''}
+                                        ${revealAnswer && !isCorrect && !isWrong ? 'border-white/10 bg-white/5 text-white/50' : ''}
+                                    `}
                                     onClick={() => {
-                                        if(revealAnswer) return;
-                                        setSelected(state => {
-                                            if(state == option) return null;
-                                            return option;
-                                        });
+                                        if (revealAnswer) return;
+                                        setSelected(state => state === option ? null : option);
                                     }}
                                 >
-                                    {option.substring(3)} {/* Remove the "A. ", "B. " etc. prefix since we're showing it in ::before */}
+                                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold
+                                        ${isCorrect ? 'bg-emerald-500 text-white' : ''}
+                                        ${isWrong ? 'bg-red-500 text-white' : ''}
+                                        ${!isCorrect && !isWrong ? 'bg-white/10 text-white/60' : ''}
+                                    `}>
+                                        {isCorrect ? <Check size={14} /> : isWrong ? <X size={14} /> : LETTERS[index]}
+                                    </span>
+                                    <span>{option}</span>
                                 </button>
                             );
                         })}
                     </div>
 
-                    {/* Action Buttons Container */}
-                    <div className="flex gap-4 mt-4">
-                        {/* Show explanation button - only show after answer is revealed */}
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 mt-5">
                         {revealAnswer && (
                             <button
-                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
+                                className="cursor-pointer rounded-lg border border-white/10 px-4 py-2 text-sm text-white/70 transition-colors hover:bg-white/10"
                                 onClick={() => setShowExplanation(true)}
                             >
                                 Show Explanation
                             </button>
                         )}
 
-                        {/* Evaluate button - only show when answer is selected but not revealed */}
                         {selected && !revealAnswer && (
                             <button
-                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
+                                className="ml-auto cursor-pointer rounded-lg bg-[var(--main-color-primary-dark)] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--main-color-primary-light)]"
                                 onClick={() => {
-                                    if(selected[0] === questions[currentQuestion].correct_answer){
-                                        setScore(state => state + 1)
+                                    if (selected === current.correct_answer) {
+                                        setScore(state => state + 1);
                                     }
                                     setRevealAnswer(true);
                                 }}
                             >
-                                EVALUATE
+                                Evaluate
                             </button>
                         )}
 
-                        {/* Next button - only show after answer is revealed and not last question */}
                         {revealAnswer && ((currentQuestion + 1) < questions.length) && (
                             <button
-                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
+                                className="ml-auto cursor-pointer rounded-lg bg-[var(--main-color-primary-dark)] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--main-color-primary-light)]"
                                 onClick={() => {
                                     setSelected(null);
                                     setRevealAnswer(false);
                                     setCurrentQuestion(state => state + 1);
                                 }}
                             >
-                                NEXT QUESTION
+                                Next Question
                             </button>
                         )}
 
-                        {/* Finish button - only show after answer is revealed and is last question */}
                         {revealAnswer && ((currentQuestion + 1) === questions.length) && (
                             <button
-                                className="bg-[var(--main-color-primary-dark)] text-white px-6 py-3 rounded-2xl flex gap-3 justify-center items-center min-w-fit cursor-pointer"
-                                onClick={() => {
-                                    setShowResult(true);
-                                }}
+                                className="ml-auto cursor-pointer rounded-lg bg-emerald-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-500"
+                                onClick={() => setStage('result')}
                             >
-                                FINISH QUIZ
+                                Finish Quiz
                             </button>
                         )}
                     </div>
-                </>
+                </div>
             )}
         </div>
     );

@@ -1,6 +1,8 @@
+from typing import Any
+
 from sentence_transformers import SentenceTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from src.dto import ChunkCreateDTO, QuizResponse
+from src.dto import ChunkCreateDTO, QuizQuestion
 from src.models import Chunk
 from openai import OpenAI
 import json
@@ -151,8 +153,9 @@ class RAGPipeLine:
     def generate_quiz(
         self,
         context: str,
-        model_name: str = "openrouter/free"
-    ) -> QuizResponse:
+        model_name: str = "openrouter/free",
+        level: int = 1,
+    ) -> list[QuizQuestion]:
 
         prompt = f"""
     Generate exactly 5 multiple-choice quiz questions from the following
@@ -162,7 +165,11 @@ class RAGPipeLine:
     - Generate exactly 5 questions.
     - Each question must have exactly 4 options.
     - Only ONE option must be correct.
-    - Questions must be based ONLY on the provided course material.
+    - Question Difficulty and Source Rules:
+        - The question set must follow the specified level: {level}.
+        - Level 1: 100% of the questions must be directly based on the provided teaching context. Do not introduce concepts, facts, or topics that are not covered in the context.
+        - Level 2: 50% of the questions must be directly based on the provided teaching context, while the other 50% must test knowledge from outside the context but remain within the same topics and concepts taught in the context.
+        - Level 3: 100% of the questions must be based on knowledge outside the provided teaching context. However, every question must still relate to the same topics and concepts covered in the context.
     - Do not use information that is not present in the course material.
     - Questions should test understanding, not only memorization.
     - Include a mixture of conceptual, code-based, and reasoning questions
@@ -179,9 +186,7 @@ class RAGPipeLine:
     - Do not include any text before or after the JSON.
 
     Required JSON format:
-
-    {{
-        "questions": [
+        ]
             {{
                 "question": "...",
                 "options": [
@@ -194,7 +199,6 @@ class RAGPipeLine:
                 "explanation": "..."
             }}
         ]
-    }}
 
     Course material:
     {context}
@@ -220,8 +224,11 @@ class RAGPipeLine:
         content = response.choices[0].message.content
 
         try:
-            data = json.loads(content)
+            data: list[Any] = json.loads(content)
         except json.JSONDecodeError:
             raise ValueError("LLM returned invalid JSON.")
 
-        return QuizResponse.model_validate(data)
+        return [
+            QuizQuestion.model_validate(question)
+            for question in data
+        ]

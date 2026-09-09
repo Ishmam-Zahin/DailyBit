@@ -87,8 +87,6 @@ const markdownComponents = {
 };
 
 // ---------- DeleteConfirmModal ----------
-// Simple confirmation dialog, no external modal library required.
-// Split out here so it can be moved to its own file later.
 function DeleteConfirmModal({
   onConfirm,
   onCancel,
@@ -142,6 +140,7 @@ export default function AiChatBot({
   chapterId: number;
 }) {
   const [query, setQuery] = useState('');
+  const [pendingQuery, setPendingQuery] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
@@ -211,6 +210,7 @@ export default function AiChatBot({
       toast.error('Missing required information to send your question.');
       return;
     }
+    setPendingQuery(query.trim());
     sendQuery(query.trim());
     setQuery('');
   };
@@ -284,7 +284,7 @@ export default function AiChatBot({
             {isResponding && (
               <>
                 <div className="ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-[var(--main-color-primary-dark)] px-3 py-2 text-sm leading-[1.6] text-white shadow-sm">
-                  {query || 'Sending...'}
+                  {pendingQuery}
                 </div>
                 <div className="mr-auto max-w-[85%] px-3 py-2 text-sm italic leading-[1.6] text-white/60">
                   Responding...

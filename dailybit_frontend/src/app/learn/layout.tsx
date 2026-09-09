@@ -1,3 +1,4 @@
+// /app/learn/layout.tsx
 import MainHeader from '@/components/MainHeader';
 
 export default function Layout({
@@ -9,7 +10,7 @@ export default function Layout({
         <>
             <MainHeader />
 
-            <main className="grid h-[calc(100vh-9rem)] grid-cols-[20rem_1fr] overflow-hidden">
+            <main className="grid h-[calc(100vh-6rem)] grid-cols-[180px_1fr] grid-rows-[1fr] overflow-hidden">
                 {children}
             </main>
         </>
