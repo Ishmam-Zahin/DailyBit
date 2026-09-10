@@ -1,14 +1,15 @@
 spring:
   application:
     name: DailyBit
+
   datasource:
     url: jdbc:postgresql://ep-aged-sound-adbn3wqi-pooler.c-2.us-east-1.aws.neon.tech/neondb?user=neondb_owner&password=npg_fvE57nhqoeFO&sslmode=require&channelBinding=require
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-#  sql:
-#    init:
-#      mode: always
-#      continue-on-error: true
 
+# Frontend URL for CORS
+frontend:
+  url: ${FRONTEND_URL:http://localhost:3000}

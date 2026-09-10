@@ -12,13 +12,10 @@ export default async function createAccount({form, token}: {form: FormData, toke
         body: form,
     });
 
-    const json = await response.json();
-    const m = json['message'];
-
     if(response.status >= 300){
-        throw m;
+        throw 'server error';
     }
-
-    return m;
+    const msg = await response.text();
+    return msg;
     
 }

@@ -1,2 +1,2 @@
-const domain = 'http://localhost:8080';
+const domain = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
 export default domain;

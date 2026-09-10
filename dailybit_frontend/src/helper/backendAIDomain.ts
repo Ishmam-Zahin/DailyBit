@@ -1,1 +1,1 @@
-export const aiDomain = 'http://localhost:8000';
+export const aiDomain = process.env.NEXT_PUBLIC_BACKEND_AI_DOMAIN;
