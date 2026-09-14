@@ -13,11 +13,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table (name = "submissions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,9 +29,9 @@ public class Submission {
     private Long id;
 
     @Column (name = "problem_id", nullable = true)
-    private Long problemId = null;
+    private Long problemId;
 
-    @Column (name = "user_id", nullable = true)
+    @Column (name = "user_id", nullable = false)
     private Long userId;
 
     @Column (nullable = false)
@@ -46,4 +48,7 @@ public class Submission {
     @Column (nullable = false)
     @Enumerated (EnumType.STRING)
     private SubmissionStatus status = SubmissionStatus.QUEUED;
+
+    @Column (nullable = true)
+    private String descp = null;
 }
