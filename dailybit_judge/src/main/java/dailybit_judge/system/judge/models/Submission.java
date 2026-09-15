@@ -49,6 +49,6 @@ public class Submission {
     @Enumerated (EnumType.STRING)
     private SubmissionStatus status = SubmissionStatus.QUEUED;
 
-    @Column (nullable = true)
+    @Column (nullable = true, columnDefinition = "TEXT")
     private String descp = null;
 }
