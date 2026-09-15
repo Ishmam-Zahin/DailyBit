@@ -24,8 +24,8 @@ import dailybit_judge.system.judge.models.Submission;
 public class JavaRunService {
 
     private static final String IMAGE = "eclipse-temurin:17-jdk";
-    private static final String HOST_SCRATCH_ROOT = "/home/zahin/Desktop/tmp"; // real host path (docker daemon's view)
-    private static final String CONTAINER_SCRATCH_ROOT = "/home/zahin/Desktop/DailyBit/dailybit_judge/tmp-codes"; // this app's own mounted view
+    private static final String HOST_SCRATCH_ROOT = "/judge_tmp_files"; // real host path (docker daemon's view)
+    private static final String CONTAINER_SCRATCH_ROOT = "/judge_tmp_files"; // this app's own mounted view
     private static final long COMPILE_TIMEOUT_SECONDS = 15;
     private static final long OUTER_WAIT_BUFFER_SECONDS = 3;
 

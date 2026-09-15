@@ -1,5 +1,7 @@
 package dailybit_judge.system.judge.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import dailybit_judge.system.judge.models.Submission;
@@ -21,5 +23,21 @@ public class SubmissionService {
         Submission savedSubmission = submissionRepo.save(submission);
 
         return savedSubmission;
+    }
+
+    public List<Submission> getSubmissionsByProblemId(Long id){
+        return submissionRepo.findAllByProblemId(id);
+    }
+
+    public List<Submission> getSubmissionsByUserId(Long id){
+        return submissionRepo.findAllByUserId(id);
+    }
+
+    public List<Submission> getSubmissionsByProblemIdAndUserId(Long problemdId, Long userId){
+        return submissionRepo.findAllByProblemIdAndUserId(problemdId, userId);
+    }
+
+    public List<Submission> getSubmissionsAll(){
+        return submissionRepo.findAll();
     }
 }
